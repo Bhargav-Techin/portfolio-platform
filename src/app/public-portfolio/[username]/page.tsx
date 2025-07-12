@@ -1,6 +1,6 @@
 'use client'
 
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { useParams } from 'next/navigation'
 import PersonalInfoPage from './_components/PersonalInfoPage'
 import TopSkillsPage from './_components/TopSkillsPage'
@@ -8,13 +8,52 @@ import ProjectsPage from './_components/TopProjectsPage'
 import ExperiancePage from './_components/ExperiancePage'
 import EducationPage from './_components/EducationPage'
 import CertificationPage from './_components/CertificationPage'
-import { usePortfolio } from '@/context/PortfolioContext'
 import TopProjectsPage from './_components/TopProjectsPage'
+import { ChatbotFAB } from '@/components/PortfolioChatbot'
+import { Portfolio } from '@/types/portfolio'
 
 const PublicPortfolioPage = () => {
-    const { portfolio, loading, error } = usePortfolio()
     const params = useParams()
     const username = params.username as string
+    
+    const [portfolio, setPortfolio] = useState<Portfolio | null>(null)
+    const [loading, setLoading] = useState(true)
+    const [error, setError] = useState<string | null>(null)
+
+    // Fetch portfolio data by username
+    useEffect(() => {
+        const fetchPortfolio = async () => {
+            if (!username) {
+                setError('Username is required')
+                setLoading(false)
+                return
+            }
+
+            setLoading(true)
+            setError(null)
+
+            try {
+                const response = await fetch(`/api/fetch-portfolio/${username}`)
+                
+                if (!response.ok) {
+                    if (response.status === 404) {
+                        throw new Error(`Portfolio for "${username}" not found`)
+                    }
+                    throw new Error('Failed to fetch portfolio data')
+                }
+
+                const data = await response.json()
+                setPortfolio(data.portfolio)
+            } catch (error) {
+                console.error('Error fetching portfolio:', error)
+                setError(error instanceof Error ? error.message : 'Unknown error occurred')
+            } finally {
+                setLoading(false)
+            }
+        }
+
+        fetchPortfolio()
+    }, [username])
 
     // Loading State
     if (loading) {
@@ -60,12 +99,20 @@ const PublicPortfolioPage = () => {
                         </div>
                         <h2 className="text-xl font-semibold text-gray-800 mb-2">Portfolio Not Found</h2>
                         <p className="text-gray-600 mb-4">{error}</p>
-                        <button
-                            onClick={() => window.location.reload()}
-                            className="bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700 transition-colors duration-200"
-                        >
-                            Try Again
-                        </button>
+                        <div className="space-y-2">
+                            <button
+                                onClick={() => window.location.reload()}
+                                className="bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700 transition-colors duration-200 mr-2"
+                            >
+                                Try Again
+                            </button>
+                            <a
+                                href="/"
+                                className="bg-gray-600 text-white px-4 py-2 rounded-lg hover:bg-gray-700 transition-colors duration-200 inline-block"
+                            >
+                                Go Home
+                            </a>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -246,6 +293,9 @@ const PublicPortfolioPage = () => {
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 10l7-7m0 0l7 7m-7-7v18" />
                 </svg>
             </button>
+
+            {/* Portfolio Chatbot */}
+            <ChatbotFAB username={username} />
         </div>
     )
 }
