@@ -89,6 +89,7 @@ export interface Portfolio {
   state: string | null
   city: string | null
   profilePicUrl: string | null
+  openRouterApiKey?: string // Optional field for OpenRouter API key
   bio: string | null
   socialLinks: SocialLink[]
   skills: Skill[]
@@ -107,6 +108,7 @@ export interface PersonalInfoFormData {
   profilePicUrl: string
   bio: string
   socialLinks: SocialLink[]
+  openRouterApiKey?: string // Optional field for OpenRouter API key
 }
 
 export interface SkillsFormData {

@@ -21,7 +21,7 @@ import { Textarea } from '@/components/ui/textarea'
 import { Label } from '@/components/ui/label'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
-import { Plus, Trash2, Upload, User, Globe, MapPin, FileText, Camera, Edit, Save, X } from 'lucide-react'
+import { Plus, Trash2, Upload, User, Globe, MapPin, FileText, Camera, Edit, Save, X, Key, Info } from 'lucide-react'
 import { uploadImageToCloudinary } from '@/lib/cloudinary'
 
 // Import types from your types file
@@ -42,7 +42,8 @@ function PersonalInfoSection({ portfolio, onUpdate }: PersonalInfoSectionProps) 
     city: '',
     profilePicUrl: '',
     bio: '',
-    socialLinks: []
+    socialLinks: [],
+    openRouterApiKey: '' // Added OpenRouter API key field
   })
 
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false)
@@ -53,67 +54,67 @@ function PersonalInfoSection({ portfolio, onUpdate }: PersonalInfoSectionProps) 
   const socialPlatforms: SocialPlatform[] = [
     {
       name: 'LinkedIn',
-      logo: 'https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/linkedin.svg'
+      logo: 'https://raw.githubusercontent.com/devicons/devicon/master/icons/linkedin/linkedin-original.svg'
     },
     {
       name: 'GitHub',
-      logo: 'https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/github.svg'
+      logo: 'https://raw.githubusercontent.com/devicons/devicon/master/icons/github/github-original.svg'
     },
     {
       name: 'Twitter',
-      logo: 'https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/twitter.svg'
+      logo: 'https://www.vectorlogo.zone/logos/twitter/twitter-official.svg'
     },
     {
       name: 'Instagram',
-      logo: 'https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/instagram.svg'
+      logo: 'https://www.vectorlogo.zone/logos/instagram/instagram-icon.svg'
     },
     {
       name: 'Facebook',
-      logo: 'https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/facebook.svg'
+      logo: 'https://raw.githubusercontent.com/devicons/devicon/master/icons/facebook/facebook-original.svg'
     },
     {
       name: 'YouTube',
-      logo: 'https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/youtube.svg'
+      logo: 'https://www.vectorlogo.zone/logos/youtube/youtube-icon.svg'
     },
     {
       name: 'Portfolio',
-      logo: 'https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/internetexplorer.svg'
+      logo: 'https://www.svgrepo.com/show/159310/portfolio.svg'
     },
     {
       name: 'Behance',
-      logo: 'https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/behance.svg'
+      logo: 'https://www.vectorlogo.zone/logos/behance/behance-icon.svg'
     },
     {
       name: 'Dribbble',
-      logo: 'https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/dribbble.svg'
+      logo: 'https://www.vectorlogo.zone/logos/dribbble/dribbble-icon.svg'
     },
     {
       name: 'Medium',
-      logo: 'https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/medium.svg'
+      logo: 'https://www.vectorlogo.zone/logos/medium/medium-icon.svg'
     },
     {
       name: 'Dev.to',
-      logo: 'https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/devdotto.svg'
+      logo: 'https://raw.githubusercontent.com/devicons/devicon/master/icons/devicon/devicon-original.svg'
     },
     {
       name: 'Discord',
-      logo: 'https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/discord.svg'
+      logo: 'https://www.vectorlogo.zone/logos/discordapp/discordapp-tile.svg'
     },
     {
       name: 'Telegram',
-      logo: 'https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/telegram.svg'
+      logo: 'https://www.vectorlogo.zone/logos/telegram/telegram-icon.svg'
     },
     {
       name: 'WhatsApp',
-      logo: 'https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/whatsapp.svg'
+      logo: 'https://www.vectorlogo.zone/logos/whatsapp/whatsapp-icon.svg'
     },
     {
       name: 'TikTok',
-      logo: 'https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/tiktok.svg'
+      logo: 'https://www.vectorlogo.zone/logos/tiktok/tiktok-icon.svg'
     },
     {
       name: 'Other',
-      logo: 'https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/link.svg'
+      logo: 'https://www.svgrepo.com/show/13650/link.svg'
     }
   ]
 
@@ -127,7 +128,8 @@ function PersonalInfoSection({ portfolio, onUpdate }: PersonalInfoSectionProps) 
         city: portfolio.city || '',
         profilePicUrl: portfolio.profilePicUrl || '',
         bio: portfolio.bio || '',
-        socialLinks: portfolio.socialLinks || []
+        socialLinks: portfolio.socialLinks || [],
+        openRouterApiKey: portfolio.openRouterApiKey || '' // Load existing API key
       })
     }
   }, [portfolio])
@@ -226,7 +228,8 @@ function PersonalInfoSection({ portfolio, onUpdate }: PersonalInfoSectionProps) 
         city: formData.city,
         profilePicUrl: formData.profilePicUrl,
         bio: formData.bio,
-        socialLinks: filteredSocialLinks
+        socialLinks: filteredSocialLinks,
+        openRouterApiKey: formData.openRouterApiKey // Include OpenRouter API key in update
       }
 
       await onUpdate(updatedData)
@@ -256,7 +259,8 @@ function PersonalInfoSection({ portfolio, onUpdate }: PersonalInfoSectionProps) 
           city: portfolio.city || '',
           profilePicUrl: portfolio.profilePicUrl || '',
           bio: portfolio.bio || '',
-          socialLinks: portfolio.socialLinks || []
+          socialLinks: portfolio.socialLinks || [],
+          openRouterApiKey: portfolio.openRouterApiKey || '' // Reset API key on cancel
         })
       }
     }
@@ -445,6 +449,43 @@ function PersonalInfoSection({ portfolio, onUpdate }: PersonalInfoSectionProps) 
                 disabled={!isEditing}
               />
             </div>
+          </div>
+
+          {/* OpenRouter API Key */}
+          <div className="space-y-2">
+            <Label htmlFor="openRouterApiKey" className="flex items-center gap-2">
+              <Key className="w-4 h-4" />
+              OpenRouter API Key
+              <Button
+                type="button"
+                variant="ghost"
+                size="sm"
+                className="p-1 h-6 w-6"
+                onClick={() => window.open('https://openrouter.ai/keys', '_blank')}
+                title="Get your OpenRouter API key"
+              >
+                <Info className="w-4 h-4 text-blue-500" />
+              </Button>
+            </Label>
+            <Input
+              id="openRouterApiKey"
+              type="password"
+              placeholder="Enter your OpenRouter API key"
+              value={formData.openRouterApiKey}
+              onChange={(e) => handleInputChange('openRouterApiKey', e.target.value)}
+              disabled={!isEditing}
+            />
+            <p className="text-xs text-gray-500">
+              This key will be stored securely and used for AI-powered features. 
+              <a 
+                href="https://openrouter.ai/keys" 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                className="text-blue-500 hover:text-blue-600 underline ml-1"
+              >
+                Get your API key here
+              </a>
+            </p>
           </div>
 
           {/* Bio */}

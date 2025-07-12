@@ -9,6 +9,7 @@ export const createDefaultPortfolio = ({ username, email }: { username: string, 
     city: null,
     profilePicUrl: null,
     bio: null,
+    openRouterApiKey: null, // Added OpenRouter API key field
     socialLinks: [],
     skills: [],
     projects: [],
@@ -21,6 +22,7 @@ export const createDefaultPortfolio = ({ username, email }: { username: string, 
 export const formatPortfolioFromDB = (portfolio: any) => {
     return {
         ...portfolio,
+        openRouterApiKey: portfolio.openRouterApiKey || null, // Handle OpenRouter API key
         skills: portfolio.skills?.map((skill: any) => ({
             ...skill,
             confidence: typeof skill.confidence === 'object' && skill.confidence.$numberInt 
@@ -53,6 +55,7 @@ export const formatPortfolioFromDB = (portfolio: any) => {
 export const formatPortfolioForDB = (portfolio: any) => {
     return {
         ...portfolio,
+        openRouterApiKey: portfolio.openRouterApiKey || null, // Handle OpenRouter API key for DB storage
         skills: portfolio.skills?.map((skill: any) => ({
             ...skill,
             confidence: { $numberInt: skill.confidence.toString() }
