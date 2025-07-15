@@ -29,7 +29,7 @@ function Dashboard() {
   const user = useUser()
   const { portfolio, loading, error, updatePortfolio, refreshPortfolio } = usePortfolio()
   const [currentSection, setCurrentSection] = useState<number>(0)
-  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'https://your-default-url.com'
+  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL 
   const username = user.user?.username || 'user'
   const publicUrl = `${baseUrl}/public-portfolio/${username}`
   const [copied, setCopied] = useState(false)

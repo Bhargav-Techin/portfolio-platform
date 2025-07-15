@@ -29,7 +29,7 @@ const TopProjectsPage: React.FC<TopProjectsTimelineProps> = ({ portfolio, userna
     const checkMobile = () => {
       setIsMobile(window.innerWidth < 768)
     }
-    
+
     checkMobile()
     window.addEventListener('resize', checkMobile)
     return () => window.removeEventListener('resize', checkMobile)
@@ -75,7 +75,7 @@ const TopProjectsPage: React.FC<TopProjectsTimelineProps> = ({ portfolio, userna
         backgroundColor: 'var(--theme-bg)'
       } as React.CSSProperties}>
         <div className="max-w-6xl mx-auto px-4 text-center">
-          <h2 className="text-2xl md:text-3xl font-bold" style={{ color: 'var(--theme-text-primary)' }}>Top Projects</h2>
+          <h2 className="text-4xl font-bold mb-4 bg-gradient-to-r from-green-400 to-blue-600 bg-clip-text text-transparent">Top Projects</h2>
           <p className="mb-4 text-sm md:text-base" style={{ color: 'var(--theme-text-secondary)' }}>My most significant and impactful work</p>
 
           <div className="py-12" style={{ color: 'var(--theme-text-muted)' }}>
@@ -115,7 +115,7 @@ const TopProjectsPage: React.FC<TopProjectsTimelineProps> = ({ portfolio, userna
       } as React.CSSProperties}>
         <div className="max-w-6xl mx-auto px-4">
           <div className="text-center mb-8">
-            <h2 className="text-2xl font-bold mb-4" style={{ color: 'var(--theme-text-primary)' }}>Top Projects</h2>
+            <h2 className="text-4xl font-bold mb-4 bg-gradient-to-r from-green-400 to-blue-600 bg-clip-text text-transparent">Top Projects</h2>
             <p className="text-base mb-4" style={{ color: 'var(--theme-text-secondary)' }}>My most significant and impactful work</p>
 
             {username && (
@@ -329,7 +329,7 @@ const TopProjectsPage: React.FC<TopProjectsTimelineProps> = ({ portfolio, userna
     } as React.CSSProperties}>
       <div className="max-w-6xl mx-auto px-4">
         <div className="text-center mb-12">
-          <h2 className="text-3xl font-bold mb-4" style={{ color: 'var(--theme-text-primary)' }}>Top Projects</h2>
+          <h2 className="text-4xl font-bold mb-4 bg-gradient-to-r from-green-400 to-blue-600 bg-clip-text text-transparent">Top Projects</h2>
           <p className="text-lg mb-4" style={{ color: 'var(--theme-text-secondary)' }}>My most significant and impactful work</p>
 
           {username && (

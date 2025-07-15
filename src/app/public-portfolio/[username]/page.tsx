@@ -4,7 +4,6 @@ import React, { useState, useEffect } from 'react'
 import { useParams } from 'next/navigation'
 import PersonalInfoPage from './_components/PersonalInfoPage'
 import TopSkillsPage from './_components/TopSkillsPage'
-import ProjectsPage from './_components/TopProjectsPage'
 import ExperiancePage from './_components/ExperiancePage'
 import EducationPage from './_components/EducationPage'
 import CertificationPage from './_components/CertificationPage'
@@ -14,11 +13,7 @@ import { ChatbotFAB } from '@/components/PortfolioChatbot'
 import { Portfolio } from '@/types/portfolio'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
-import { Alert, AlertDescription } from '@/components/ui/alert'
 import { Skeleton } from '@/components/ui/skeleton'
-import { Badge } from '@/components/ui/badge'
-import { Separator } from '@/components/ui/separator'
-import { ScrollArea } from '@/components/ui/scroll-area'
 import {
     AlertTriangle,
     FileText,
@@ -28,10 +23,12 @@ import {
     Heart,
     Loader2
 } from 'lucide-react'
+import Link from 'next/link'
 
 const PublicPortfolioPage = () => {
     const params = useParams()
     const username = params.username as string
+    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL
 
     const [portfolio, setPortfolio] = useState<Portfolio | null>(null)
     const [loading, setLoading] = useState(true)
@@ -301,18 +298,17 @@ const PublicPortfolioPage = () => {
             </main>
             {/* Footer */}
             <footer className="bg-black backdrop-blur-sm mt-16 py-8 w-auto">
-                <div className="text-center space-y-4 px-6">
-                    <p className="text-gray-300">
-                        This portfolio was created by{' '}
-                        <Badge variant="secondary" className="bg-gray-700/80 text-gray-100">
-                            {portfolio.fullName || username}
-                        </Badge>
-                    </p>
-                    <Separator className="mx-auto max-w-xs bg-gray-700/50" />
-                    <p className="text-sm text-gray-400 flex items-center justify-center">
-                        Built with <Heart className="w-4 h-4 mx-1 text-red-400" fill="currentColor" /> using our Portfolio Platform
-                    </p>
-                </div>
+                <p className="text-sm text-gray-400 flex items-center justify-center">
+                    Built with <Heart className="w-4 h-4 mx-1 text-red-400" fill="currentColor" /> using{' '}
+                    <Link
+                        href={baseUrl || "/"}
+                        target="_blank"
+                        className="text-blue-400 hover:underline ml-1"
+                    >
+                        Portfolio Platform
+                    </Link>
+                </p>
+
             </footer>
 
             {/* Floating Back to Top Button */}

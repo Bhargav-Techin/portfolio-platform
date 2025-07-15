@@ -58,7 +58,7 @@ const TopSkillsPage: React.FC<TopSkillsPageProps> = ({ portfolio, username }) =>
         backgroundColor: 'var(--theme-bg)'
       } as React.CSSProperties}>
         <div className="max-w-6xl mx-auto px-4 text-center">
-          <h2 className="text-3xl font-bold" style={{ color: 'var(--theme-text-primary)' }}>Top Skills</h2>
+          <h2 className="text-4xl font-bold bg-gradient-to-r from-blue-400 to-purple-600 bg-clip-text text-transparent">Top Skills</h2>
           <p className="mb-4" style={{ color: 'var(--theme-text-secondary)' }}>My most proficient and frequently used technologies</p>
 
           <div className="py-12" style={{ color: 'var(--theme-text-muted)' }}>
@@ -67,7 +67,7 @@ const TopSkillsPage: React.FC<TopSkillsPageProps> = ({ portfolio, username }) =>
             </svg>
             <p>No skills added yet</p>
             {username && (
-              <Link 
+              <Link
                 href={`/public-portfolio/${username}/skills`}
                 className="inline-block mt-2"
                 style={{ color: 'var(--theme-accent)' }}
@@ -102,11 +102,11 @@ const TopSkillsPage: React.FC<TopSkillsPageProps> = ({ portfolio, username }) =>
     } as React.CSSProperties}>
       <div className="max-w-6xl mx-auto px-4">
         <div className="text-center mb-8">
-          <h2 className="text-3xl font-bold" style={{ color: 'var(--theme-text-primary)' }}>Top Skills</h2>
+          <h2 className="text-4xl font-bold bg-gradient-to-r from-blue-400 to-purple-600 bg-clip-text text-transparent">Top Skills</h2>
           <p className="mb-4" style={{ color: 'var(--theme-text-secondary)' }}>My most proficient and frequently used technologies</p>
 
           {username && (
-            <Link 
+            <Link
               href={`/public-portfolio/${username}/skills`}
               className="inline-flex items-center gap-2 font-medium transition-colors duration-200"
               style={{ color: 'var(--theme-accent)' }}
@@ -143,7 +143,7 @@ const TopSkillsPage: React.FC<TopSkillsPageProps> = ({ portfolio, username }) =>
             </div>
             <p className="text-gray-500">No top skills marked yet</p>
             {username && (
-              <Link 
+              <Link
                 href={`/public-portfolio/${username}/skills`}
                 className="inline-block mt-2"
                 style={{ color: 'var(--theme-accent)' }}
