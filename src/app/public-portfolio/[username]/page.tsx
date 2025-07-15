@@ -13,6 +13,21 @@ import PortfolioNavBar from './_components/PortfolioNavBar'
 import { ChatbotFAB } from '@/components/PortfolioChatbot'
 import { Portfolio } from '@/types/portfolio'
 import { Button } from '@/components/ui/button'
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
+import { Alert, AlertDescription } from '@/components/ui/alert'
+import { Skeleton } from '@/components/ui/skeleton'
+import { Badge } from '@/components/ui/badge'
+import { Separator } from '@/components/ui/separator'
+import { ScrollArea } from '@/components/ui/scroll-area'
+import {
+    AlertTriangle,
+    FileText,
+    Home,
+    RefreshCw,
+    ArrowUp,
+    Heart,
+    Loader2
+} from 'lucide-react'
 
 const PublicPortfolioPage = () => {
     const params = useParams()
@@ -57,7 +72,7 @@ const PublicPortfolioPage = () => {
         fetchPortfolio()
     }, [username])
 
-    // Loading State
+    // Loading State with shadcn components
     if (loading) {
         return (
             <div
@@ -76,28 +91,31 @@ const PublicPortfolioPage = () => {
                 } as React.CSSProperties}
             >
                 <div className="max-w-5xl mx-auto px-4 py-16">
-                    <div className="text-center">
-                        <div className="inline-block animate-spin rounded-full h-12 w-12 border-b-2 mb-4" style={{ borderColor: 'var(--theme-accent)' }}></div>
-                        <h2 className="text-xl font-semibold mb-2" style={{ color: 'var(--theme-text-primary)' }}>Loading Portfolio</h2>
-                        <p style={{ color: 'var(--theme-text-secondary)' }}>Please wait while we fetch the latest information...</p>
+                    <div className="text-center mb-16">
+                        <div className="flex justify-center mb-4">
+                            <Loader2 className="h-12 w-12 animate-spin text-blue-500" />
+                        </div>
+                        <h2 className="text-xl font-semibold mb-2" style={{ color: 'var(--theme-text-primary)' }}>
+                            Loading Portfolio
+                        </h2>
+                        <p style={{ color: 'var(--theme-text-secondary)' }}>
+                            Please wait while we fetch the latest information...
+                        </p>
                     </div>
 
-                    {/* Loading Skeleton */}
-                    <div className="mt-16 space-y-8">
+                    {/* Loading Skeleton using shadcn */}
+                    <div className="space-y-8">
                         {[1, 2, 3, 4].map(i => (
-                            <div key={i} className="rounded-xl shadow-sm border p-6" style={{
-                                backgroundColor: 'var(--theme-card)',
-                                borderColor: 'var(--theme-border)'
-                            }}>
-                                <div className="animate-pulse">
-                                    <div className="h-6 rounded w-1/4 mb-4" style={{ backgroundColor: 'var(--theme-border)' }}></div>
-                                    <div className="space-y-3">
-                                        <div className="h-4 rounded w-3/4" style={{ backgroundColor: 'var(--theme-border)' }}></div>
-                                        <div className="h-4 rounded w-1/2" style={{ backgroundColor: 'var(--theme-border)' }}></div>
-                                        <div className="h-4 rounded w-2/3" style={{ backgroundColor: 'var(--theme-border)' }}></div>
-                                    </div>
-                                </div>
-                            </div>
+                            <Card key={i} className="border-gray-700 bg-gray-800/50">
+                                <CardHeader>
+                                    <Skeleton className="h-6 w-1/4 bg-gray-700" />
+                                </CardHeader>
+                                <CardContent className="space-y-3">
+                                    <Skeleton className="h-4 w-3/4 bg-gray-700" />
+                                    <Skeleton className="h-4 w-1/2 bg-gray-700" />
+                                    <Skeleton className="h-4 w-2/3 bg-gray-700" />
+                                </CardContent>
+                            </Card>
                         ))}
                     </div>
                 </div>
@@ -105,7 +123,7 @@ const PublicPortfolioPage = () => {
         )
     }
 
-    // Error State
+    // Error State with shadcn components
     if (error) {
         return (
             <div
@@ -123,41 +141,50 @@ const PublicPortfolioPage = () => {
                     backgroundColor: 'var(--theme-bg)'
                 } as React.CSSProperties}
             >
-                <div className="max-w-md mx-auto px-4 text-center">
-                    <div className="rounded-xl shadow-lg border p-8" style={{
-                        backgroundColor: 'var(--theme-card)',
-                        borderColor: 'var(--theme-border)'
-                    }}>
-                        <div className="w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4" style={{
-                            backgroundColor: 'rgba(239, 68, 68, 0.1)'
-                        }}>
-                            <svg className="w-8 h-8 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.732 16.5c-.77.833.192 2.5 1.732 2.5z" />
-                            </svg>
-                        </div>
-                        <h2 className="text-xl font-semibold mb-2" style={{ color: 'var(--theme-text-primary)' }}>Portfolio Not Found</h2>
-                        <p className="mb-4" style={{ color: 'var(--theme-text-secondary)' }}>{error}</p>
-                        <div className="space-y-2">
-                            <button
-                                onClick={() => window.location.reload()}
-                                className="bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700 transition-colors duration-200 mr-2"
-                            >
-                                Try Again
-                            </button>
-                            <a
-                                href="/"
-                                className="bg-gray-600 text-white px-4 py-2 rounded-lg hover:bg-gray-700 transition-colors duration-200 inline-block"
-                            >
-                                Go Home
-                            </a>
-                        </div>
-                    </div>
+                <div className="max-w-md mx-auto px-4">
+                    <Card className="border-red-800 bg-red-900/10">
+                        <CardContent className="pt-6">
+                            <div className="flex flex-col items-center text-center space-y-4">
+                                <div className="w-16 h-16 rounded-full bg-red-500/10 flex items-center justify-center">
+                                    <AlertTriangle className="w-8 h-8 text-red-400" />
+                                </div>
+                                <div>
+                                    <CardTitle className="text-xl text-red-300 mb-2">
+                                        Portfolio Not Found
+                                    </CardTitle>
+                                    <CardDescription className="text-red-200">
+                                        {error}
+                                    </CardDescription>
+                                </div>
+                                <div className="flex space-x-2">
+                                    <Button
+                                        variant="destructive"
+                                        onClick={() => window.location.reload()}
+                                        className="bg-red-600 hover:bg-red-700"
+                                    >
+                                        <RefreshCw className="w-4 h-4 mr-2" />
+                                        Try Again
+                                    </Button>
+                                    <Button
+                                        variant="secondary"
+                                        asChild
+                                        className="bg-gray-600 hover:bg-gray-700"
+                                    >
+                                        <a href="/">
+                                            <Home className="w-4 h-4 mr-2" />
+                                            Go Home
+                                        </a>
+                                    </Button>
+                                </div>
+                            </div>
+                        </CardContent>
+                    </Card>
                 </div>
             </div>
         )
     }
 
-    // No Portfolio State
+    // No Portfolio State with shadcn components
     if (!portfolio) {
         return (
             <div
@@ -175,30 +202,33 @@ const PublicPortfolioPage = () => {
                     backgroundColor: 'var(--theme-bg)'
                 } as React.CSSProperties}
             >
-                <div className="max-w-md mx-auto px-4 text-center">
-                    <div className="rounded-xl shadow-lg border p-8" style={{
-                        backgroundColor: 'var(--theme-card)',
-                        borderColor: 'var(--theme-border)'
-                    }}>
-                        <div className="w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4" style={{
-                            backgroundColor: 'var(--theme-border)'
-                        }}>
-                            <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" style={{ color: 'var(--theme-text-secondary)' }}>
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                            </svg>
-                        </div>
-                        <h2 className="text-xl font-semibold mb-2" style={{ color: 'var(--theme-text-primary)' }}>Portfolio Not Available</h2>
-                        <p className="mb-4" style={{ color: 'var(--theme-text-secondary)' }}>The portfolio for "{username}" could not be found.</p>
-                        <a
-                            href="/"
-                            className="px-4 py-2 rounded-lg transition-colors duration-200 inline-block text-white"
-                            style={{ backgroundColor: 'var(--theme-accent)' }}
-                            onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = 'var(--theme-accent-hover)')}
-                            onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = 'var(--theme-accent')}
-                        >
-                            Go Home
-                        </a>
-                    </div>
+                <div className="max-w-md mx-auto px-4">
+                    <Card className="border-gray-700 bg-gray-800/50">
+                        <CardContent className="pt-6">
+                            <div className="flex flex-col items-center text-center space-y-4">
+                                <div className="w-16 h-16 rounded-full bg-gray-700 flex items-center justify-center">
+                                    <FileText className="w-8 h-8 text-gray-400" />
+                                </div>
+                                <div>
+                                    <CardTitle className="text-xl text-gray-100 mb-2">
+                                        Portfolio Not Available
+                                    </CardTitle>
+                                    <CardDescription className="text-gray-300">
+                                        The portfolio for "{username}" could not be found.
+                                    </CardDescription>
+                                </div>
+                                <Button
+                                    asChild
+                                    className="bg-blue-600 hover:bg-blue-700"
+                                >
+                                    <a href="/">
+                                        <Home className="w-4 h-4 mr-2" />
+                                        Go Home
+                                    </a>
+                                </Button>
+                            </div>
+                        </CardContent>
+                    </Card>
                 </div>
             </div>
         )
@@ -225,104 +255,76 @@ const PublicPortfolioPage = () => {
 
             {/* Personal Info Section */}
             <section id="about" className="-mt-20">
-                <div className="backdrop-blur-sm rounded-2xl shadow-xl border overflow-hidden" style={{
-                    backgroundColor: 'var(--theme-card)',
-                    borderColor: 'var(--theme-border)'
-                }}>
+                <div className="backdrop-blur-sm bg-transparent border-none">
                     <PersonalInfoPage portfolio={portfolio} username={username} />
                 </div>
             </section>
 
             {/* Main Content */}
-            <main className="max-w-6xl mx-auto py-8">
+            <main className="max-w-6xl mx-auto pt-8 px-4 sm:px-6 lg:px-8">
                 <div className="space-y-12">
-
                     {/* Top Skills Section */}
                     <section id="skills" className="scroll-mt-20">
-                        <div className="backdrop-blur-sm rounded-2xl shadow-xl border overflow-hidden" style={{
-                            backgroundColor: 'var(--theme-card)',
-                            borderColor: 'var(--theme-border)'
-                        }}>
+                        <div className="backdrop-blur-sm bg-transparent border-none">
                             <TopSkillsPage portfolio={portfolio} username={username} />
                         </div>
                     </section>
 
                     {/* Projects Section */}
                     <section id="projects" className="scroll-mt-20">
-                        <div className="backdrop-blur-sm rounded-2xl shadow-xl border overflow-hidden" style={{
-                            backgroundColor: 'var(--theme-card)',
-                            borderColor: 'var(--theme-border)'
-                        }}>
+                        <div className="backdrop-blur-sm bg-transparent border-none">
                             <TopProjectsPage portfolio={portfolio} username={username} />
                         </div>
                     </section>
 
                     {/* Experience Section */}
                     <section id="experience" className="scroll-mt-20">
-                        <div className="backdrop-blur-sm rounded-2xl shadow-xl border overflow-hidden" style={{
-                            backgroundColor: 'var(--theme-card)',
-                            borderColor: 'var(--theme-border)'
-                        }}>
+                        <div className="backdrop-blur-sm bg-transparent border-none">
                             <ExperiancePage portfolio={portfolio} />
                         </div>
                     </section>
 
                     {/* Education Section */}
                     <section id="education" className="scroll-mt-20">
-                        <div className="backdrop-blur-sm rounded-2xl shadow-xl border overflow-hidden" style={{
-                            backgroundColor: 'var(--theme-card)',
-                            borderColor: 'var(--theme-border)'
-                        }}>
+                        <div className="backdrop-blur-sm bg-transparent border-none">
                             <EducationPage portfolio={portfolio} />
                         </div>
                     </section>
 
                     {/* Certification Section */}
                     <section id="certifications" className="scroll-mt-20">
-                        <div className="backdrop-blur-sm rounded-2xl shadow-xl border overflow-hidden" style={{
-                            backgroundColor: 'var(--theme-card)',
-                            borderColor: 'var(--theme-border)'
-                        }}>
+                        <div className="backdrop-blur-sm bg-transparent border-none">
                             <CertificationPage portfolio={portfolio} />
                         </div>
                     </section>
                 </div>
-
-                {/* Footer */}
-                <footer className="mt-16 py-8 text-center">
-                    <div className="backdrop-blur-sm rounded-xl border p-6" style={{
-                        backgroundColor: 'rgba(26, 31, 46, 0.3)',
-                        borderColor: 'var(--theme-border)'
-                    }}>
-                        <p className="mb-2" style={{ color: 'var(--theme-text-secondary)' }}>
-                            This portfolio was created by{' '}
-                            <span className="font-semibold" style={{ color: 'var(--theme-text-primary)' }}>
-                                {portfolio.fullName || username}
-                            </span>
-                        </p>
-                        <p className="text-sm" style={{ color: 'var(--theme-text-muted)' }}>
-                            Built with ❤️ using our Portfolio Platform
-                        </p>
-                    </div>
-                </footer>
             </main>
+            {/* Footer */}
+            <footer className="bg-black backdrop-blur-sm mt-16 py-8 w-auto">
+                <div className="text-center space-y-4 px-6">
+                    <p className="text-gray-300">
+                        This portfolio was created by{' '}
+                        <Badge variant="secondary" className="bg-gray-700/80 text-gray-100">
+                            {portfolio.fullName || username}
+                        </Badge>
+                    </p>
+                    <Separator className="mx-auto max-w-xs bg-gray-700/50" />
+                    <p className="text-sm text-gray-400 flex items-center justify-center">
+                        Built with <Heart className="w-4 h-4 mx-1 text-red-400" fill="currentColor" /> using our Portfolio Platform
+                    </p>
+                </div>
+            </footer>
 
             {/* Floating Back to Top Button */}
-            <button
-                type="button"
+            <Button
                 onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-                className="fixed bottom-6 left-6 w-12 h-12 text-white rounded-full border border-gray-600 bg-gray-950 shadow-lg hover:bg-black hover:border-white hover:-translate-y-1 hover:shadow-xl transition-all duration-300 flex items-center justify-center group"
+                className="fixed bottom-6 left-6 w-12 h-12 rounded-full bg-gray-950 border-gray-600 hover:bg-black hover:border-white hover:-translate-y-1 hover:shadow-xl transition-all duration-300"
+                variant="outline"
+                size="icon"
                 aria-label="Back to top"
             >
-                <svg
-                    className="w-5 h-5 transform group-hover:-translate-y-0.5 transition-transform duration-300"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                >
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 10l7-7m0 0l7 7m-7-7v18" />
-                </svg>
-            </button>
+                <ArrowUp className="w-5 h-5 transform group-hover:-translate-y-0.5 transition-transform duration-300" />
+            </Button>
 
             {/* Portfolio Chatbot */}
             <ChatbotFAB username={username} />

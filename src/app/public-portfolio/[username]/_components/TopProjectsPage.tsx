@@ -1,26 +1,54 @@
-import React, { useState } from 'react'
+'use client'
+import * as React from 'react'
+import Timeline from '@mui/lab/Timeline'
+import TimelineItem from '@mui/lab/TimelineItem'
+import TimelineSeparator from '@mui/lab/TimelineSeparator'
+import TimelineConnector from '@mui/lab/TimelineConnector'
+import TimelineContent from '@mui/lab/TimelineContent'
+import TimelineDot from '@mui/lab/TimelineDot'
+import TimelineOppositeContent from '@mui/lab/TimelineOppositeContent'
+import { Portfolio } from '@/types/portfolio'
 import Link from 'next/link'
-import { Portfolio, Project } from '@/types/portfolio'
+import Image from 'next/image'
 
-interface TopProjectsPageProps {
+interface TopProjectsTimelineProps {
   portfolio: Portfolio | null | undefined
   username?: string
 }
 
-const TopProjectsPage: React.FC<TopProjectsPageProps> = ({ portfolio, username }) => {
-  const [playingVideo, setPlayingVideo] = useState<string | null>(null)
+const getYouTubeId = (url: string): string | null => {
+  const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/
+  const match = url.match(regExp)
+  return match && match[2].length === 11 ? match[2] : null
+}
 
-  // Function to extract YouTube video ID from URL
-  const getYouTubeId = (url: string): string | null => {
-    const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/
-    const match = url.match(regExp)
-    return match && match[2].length === 11 ? match[2] : null
-  }
+const TopProjectsPage: React.FC<TopProjectsTimelineProps> = ({ portfolio, username }) => {
+  const [isMobile, setIsMobile] = React.useState(false)
 
-  // Add null checks for portfolio and projects
+  React.useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768)
+    }
+    
+    checkMobile()
+    window.addEventListener('resize', checkMobile)
+    return () => window.removeEventListener('resize', checkMobile)
+  }, [])
+
   if (!portfolio) {
     return (
-      <section className="py-8">
+      <section className="py-8" style={{
+        '--theme-bg': '#0a0f1a',
+        '--theme-card': '#1a1f2e',
+        '--theme-card-hover': '#242938',
+        '--theme-border': '#0a0f1a',
+        '--theme-text-primary': '#e2e8f0',
+        '--theme-text-secondary': '#94a3b8',
+        '--theme-text-muted': '#64748b',
+        '--theme-accent': '#3b82f6',
+        '--theme-accent-hover': '#2563eb',
+        backgroundColor: 'var(--theme-bg)'
+      } as React.CSSProperties}>
         <div className="max-w-6xl mx-auto px-4 text-center">
           <div className="text-gray-500">
             <p>Portfolio data not available</p>
@@ -30,26 +58,36 @@ const TopProjectsPage: React.FC<TopProjectsPageProps> = ({ portfolio, username }
     )
   }
 
-  const projects = portfolio.projects || []
-  const topProjects = projects.filter(project => project.top)
+  const topProjects = (portfolio.projects || []).filter((p) => p.top)
 
-  // If no projects available at all
-  if (projects.length === 0) {
+  if (topProjects.length === 0) {
     return (
-      <section className="py-8">
+      <section className="py-8" style={{
+        '--theme-bg': '#0a0f1a',
+        '--theme-card': '#1a1f2e',
+        '--theme-card-hover': '#242938',
+        '--theme-border': '#0a0f1a',
+        '--theme-text-primary': '#e2e8f0',
+        '--theme-text-secondary': '#94a3b8',
+        '--theme-text-muted': '#64748b',
+        '--theme-accent': '#3b82f6',
+        '--theme-accent-hover': '#2563eb',
+        backgroundColor: 'var(--theme-bg)'
+      } as React.CSSProperties}>
         <div className="max-w-6xl mx-auto px-4 text-center">
-          <h2 className="text-3xl font-bold text-gray-800 mb-2">Featured Projects</h2>
-          <p className="text-gray-600 mb-4">Showcasing my best work and achievements</p>
-          
-          <div className="text-gray-500 py-12">
+          <h2 className="text-2xl md:text-3xl font-bold" style={{ color: 'var(--theme-text-primary)' }}>Top Projects</h2>
+          <p className="mb-4 text-sm md:text-base" style={{ color: 'var(--theme-text-secondary)' }}>My most significant and impactful work</p>
+
+          <div className="py-12" style={{ color: 'var(--theme-text-muted)' }}>
             <svg className="w-16 h-16 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
             </svg>
-            <p>No projects added yet</p>
+            <p className="text-sm md:text-base">No top projects added yet</p>
             {username && (
-              <Link 
+              <Link
                 href={`/public-portfolio/${username}/projects`}
-                className="inline-block mt-2 text-blue-600 hover:text-blue-800 font-medium"
+                className="inline-block mt-2 text-sm md:text-base"
+                style={{ color: 'var(--theme-accent)' }}
               >
                 Add projects
               </Link>
@@ -60,263 +98,468 @@ const TopProjectsPage: React.FC<TopProjectsPageProps> = ({ portfolio, username }
     )
   }
 
-  // Utility to format date for display
-  const formatDate = (date: string | Date): string => {
-    if (!date) return ''
-    if (typeof date === 'string') return date
-    if (date instanceof Date) return date.toISOString().slice(0, 7)
-    return String(date)
+  // Mobile layout - stack everything vertically
+  if (isMobile) {
+    return (
+      <section className="py-8" style={{
+        '--theme-bg': '#0a0f1a',
+        '--theme-card': '#1a1f2e',
+        '--theme-card-hover': '#242938',
+        '--theme-border': '#0a0f1a',
+        '--theme-text-primary': '#e2e8f0',
+        '--theme-text-secondary': '#94a3b8',
+        '--theme-text-muted': '#64748b',
+        '--theme-accent': '#3b82f6',
+        '--theme-accent-hover': '#2563eb',
+        backgroundColor: 'var(--theme-bg)'
+      } as React.CSSProperties}>
+        <div className="max-w-6xl mx-auto px-4">
+          <div className="text-center mb-8">
+            <h2 className="text-2xl font-bold mb-4" style={{ color: 'var(--theme-text-primary)' }}>Top Projects</h2>
+            <p className="text-base mb-4" style={{ color: 'var(--theme-text-secondary)' }}>My most significant and impactful work</p>
+
+            {username && (
+              <Link
+                href={`/public-portfolio/${username}/projects`}
+                className="inline-flex items-center gap-2 font-medium transition-colors duration-200 text-sm"
+                style={{ color: 'var(--theme-accent)' }}
+              >
+                See All Projects
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                </svg>
+              </Link>
+            )}
+          </div>
+
+          <div className="space-y-6">
+            {topProjects.map((project, idx) => {
+              const videoId = project.videoLink ? getYouTubeId(project.videoLink) : null
+
+              return (
+                <div
+                  key={idx}
+                  className="rounded-lg p-4 shadow-lg transition-all duration-300 hover:shadow-xl border"
+                  style={{
+                    backgroundColor: 'var(--theme-card)',
+                    borderColor: 'var(--theme-border)'
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.backgroundColor = 'var(--theme-card-hover)'
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.backgroundColor = 'var(--theme-card)'
+                  }}
+                >
+                  {/* Mobile: Video/Image first */}
+                  <div className="mb-4">
+                    {videoId ? (
+                      <div
+                        className="aspect-video w-full rounded-lg overflow-hidden shadow-lg"
+                        style={{
+                          backgroundColor: 'var(--theme-card)',
+                          border: '1px solid var(--theme-border)'
+                        }}
+                      >
+                        <iframe
+                          src={`https://www.youtube.com/embed/${videoId}`}
+                          title={project.name}
+                          frameBorder="0"
+                          allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+                          allowFullScreen
+                          className="w-full h-full"
+                        ></iframe>
+                      </div>
+                    ) : project.thumbnail ? (
+                      <div
+                        className="aspect-video w-full rounded-lg overflow-hidden shadow-lg"
+                        style={{
+                          backgroundColor: 'var(--theme-card)',
+                          border: '1px solid var(--theme-border)'
+                        }}
+                      >
+                        <img
+                          src={project.thumbnail}
+                          alt={project.name}
+                          className="w-full h-full object-cover"
+                        />
+                      </div>
+                    ) : (
+                      <div
+                        className="aspect-video w-full rounded-lg flex items-center justify-center"
+                        style={{
+                          backgroundColor: 'var(--theme-card)',
+                          border: '1px solid var(--theme-border)'
+                        }}
+                      >
+                        <div className="text-center">
+                          <svg
+                            className="w-12 h-12 mx-auto mb-2"
+                            fill="none"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24"
+                            style={{ color: 'var(--theme-text-muted)' }}
+                          >
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                          </svg>
+                          <p className="text-sm" style={{ color: 'var(--theme-text-muted)' }}>No preview</p>
+                        </div>
+                      </div>
+                    )}
+                  </div>
+
+                  {/* Mobile: Project Info */}
+                  <div>
+                    <h3
+                      className="font-bold text-lg mb-2"
+                      style={{ color: 'var(--theme-text-primary)' }}
+                    >
+                      {project.name}
+                    </h3>
+
+                    {/* Date Range */}
+                    {(project.startDate || project.endDate) && (
+                      <div className="flex items-center gap-2 mb-3">
+                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" style={{ color: 'var(--theme-text-muted)' }}>
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                        </svg>
+                        <span className="text-sm font-medium" style={{ color: 'var(--theme-text-muted)' }}>
+                          {project.startDate && new Date(project.startDate).toLocaleDateString('en-US', {
+                            year: 'numeric',
+                            month: 'short'
+                          })}
+                          {project.startDate && ' - '}
+                          {project.endDate ? new Date(project.endDate).toLocaleDateString('en-US', {
+                            year: 'numeric',
+                            month: 'short'
+                          }) : (project.startDate ? 'Present' : '')}
+                        </span>
+                      </div>
+                    )}
+
+                    <p
+                      className="text-sm leading-relaxed mb-4 line-clamp-3"
+                      style={{ color: 'var(--theme-text-secondary)' }}
+                    >
+                      {project.description}
+                    </p>
+
+                    {/* Skills Used */}
+                    {project.skills && project.skills.length > 0 && (
+                      <div className="mb-4">
+                        <h4 className="font-semibold text-sm mb-2" style={{ color: 'var(--theme-text-secondary)' }}>Technologies Used</h4>
+                        <div className="flex flex-wrap gap-2">
+                          {project.skills.map((skill: any, skillIdx: number) => (
+                            <span
+                              key={skillIdx}
+                              className="inline-flex items-center gap-1 rounded-lg px-2 py-1 text-xs font-medium bg-white/90 border border-gray-600/50 text-black"
+                            >
+                              {skill.logo && (
+                                <Image
+                                  width={12}
+                                  height={12}
+                                  src={skill.logo}
+                                  alt={skill.name}
+                                  className="rounded"
+                                  onError={(e) => {
+                                    e.currentTarget.style.display = 'none'
+                                  }}
+                                />
+                              )}
+                              {skill.name}
+                            </span>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+
+                    <div className="flex flex-wrap gap-3">
+                      {project.liveLink && (
+                        <Link
+                          href={project.liveLink}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="inline-flex items-center gap-1 text-sm font-medium transition-colors duration-200 hover:opacity-80 hover:underline"
+                          style={{ color: 'var(--theme-accent)' }}
+                        >
+                          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                          </svg>
+                          Live Demo
+                        </Link>
+                      )}
+                      {project.githubLink && (
+                        <Link
+                          href={project.githubLink}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="inline-flex items-center gap-1 text-sm font-medium transition-colors duration-200 hover:opacity-80 hover:underline"
+                          style={{ color: 'var(--theme-text-secondary)' }}
+                        >
+                          <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z" />
+                          </svg>
+                          GitHub
+                        </Link>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              )
+            })}
+          </div>
+        </div>
+      </section>
+    )
   }
 
+  // Desktop layout - keep original timeline
   return (
-    <section className="py-8">
+    <section className="py-8" style={{
+      '--theme-bg': '#0a0f1a',
+      '--theme-card': '#1a1f2e',
+      '--theme-card-hover': '#242938',
+      '--theme-border': '#0a0f1a',
+      '--theme-text-primary': '#e2e8f0',
+      '--theme-text-secondary': '#94a3b8',
+      '--theme-text-muted': '#64748b',
+      '--theme-accent': '#3b82f6',
+      '--theme-accent-hover': '#2563eb',
+      backgroundColor: 'var(--theme-bg)'
+    } as React.CSSProperties}>
       <div className="max-w-6xl mx-auto px-4">
-        <div className="text-center mb-8">
-          <h2 className="text-3xl font-bold text-gray-800 mb-2">Featured Projects</h2>
-          <p className="text-gray-600 mb-4">Showcasing my best work and achievements</p>
-          
-          {/* See All Projects Link */}
+        <div className="text-center mb-12">
+          <h2 className="text-3xl font-bold mb-4" style={{ color: 'var(--theme-text-primary)' }}>Top Projects</h2>
+          <p className="text-lg mb-4" style={{ color: 'var(--theme-text-secondary)' }}>My most significant and impactful work</p>
+
           {username && (
-            <Link 
+            <Link
               href={`/public-portfolio/${username}/projects`}
-              className="inline-flex items-center gap-2 text-blue-600 hover:text-blue-800 font-medium transition-colors duration-200"
+              className="inline-flex items-center gap-2 font-medium transition-colors duration-200"
+              style={{ color: 'var(--theme-accent)' }}
             >
               See All Projects
-              <svg 
-                className="w-4 h-4" 
-                fill="none" 
-                stroke="currentColor" 
-                viewBox="0 0 24 24"
-              >
-                <path 
-                  strokeLinecap="round" 
-                  strokeLinejoin="round" 
-                  strokeWidth={2} 
-                  d="M9 5l7 7-7 7" 
-                />
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
               </svg>
             </Link>
           )}
         </div>
-        
-        {/* Top Projects Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+
+        <Timeline
+          position="alternate"
+          sx={{
+            '& .MuiTimelineItem-root': {
+              '&:before': {
+                content: 'none',
+              },
+            },
+            '& .MuiTimelineConnector-root': {
+              backgroundColor: 'var(--theme-accent)',
+              width: '2px',
+            },
+            '& .MuiTimelineDot-root': {
+              backgroundColor: 'var(--theme-accent)',
+              border: '3px solid var(--theme-card)',
+              boxShadow: '0 0 0 4px var(--theme-accent-hover)',
+              width: '20px',
+              height: '20px',
+            },
+            '& .MuiTimelineContent-root': {
+              padding: '16px 20px',
+            },
+            '& .MuiTimelineOppositeContent-root': {
+              padding: '16px 20px',
+            },
+          }}
+        >
           {topProjects.map((project, idx) => {
             const videoId = project.videoLink ? getYouTubeId(project.videoLink) : null
-            const isPlaying = playingVideo === `${idx}-${project.name}`
-            
+
             return (
-              <div 
-                key={idx} 
-                className="group relative bg-white rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-200"
-              >
-                {/* Project Image/Video Container */}
-                <div className="relative h-48 overflow-hidden">
-                  {/* Show YouTube embed if playing, otherwise show thumbnail */}
-                  {isPlaying && videoId ? (
-                    <div className="relative w-full h-full">
+              <TimelineItem key={idx}>
+                {/* LEFT: YouTube preview */}
+                <TimelineOppositeContent sx={{ flex: 1 }}>
+                  {videoId ? (
+                    <div
+                      className="aspect-video w-full rounded-lg overflow-hidden shadow-lg transition-transform duration-300 hover:scale-105"
+                      style={{
+                        backgroundColor: 'var(--theme-card)',
+                        border: '1px solid var(--theme-border)'
+                      }}
+                    >
                       <iframe
-                        width="100%"
-                        height="100%"
-                        src={`https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0&modestbranding=1`}
-                        title={`${project.name} - Video Demo`}
+                        src={`https://www.youtube.com/embed/${videoId}`}
+                        title={project.name}
                         frameBorder="0"
-                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                        referrerPolicy="strict-origin-when-cross-origin"
+                        allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
                         allowFullScreen
-                        className="absolute inset-0"
+                        className="w-full h-full"
+                      ></iframe>
+                    </div>
+                  ) : project.thumbnail ? (
+                    <div
+                      className="aspect-video w-full rounded-lg overflow-hidden shadow-lg transition-transform duration-300 hover:scale-105"
+                      style={{
+                        backgroundColor: 'var(--theme-card)',
+                        border: '1px solid var(--theme-border)'
+                      }}
+                    >
+                      <img
+                        src={project.thumbnail}
+                        alt={project.name}
+                        className="w-full h-full object-cover"
                       />
-                      {/* Close Video Button */}
-                      <button
-                        onClick={() => setPlayingVideo(null)}
-                        className="absolute top-2 right-2 z-10 bg-black/70 hover:bg-black/90 text-white p-2 rounded-full transition-colors duration-200"
-                        title="Close video"
-                      >
-                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                        </svg>
-                      </button>
                     </div>
                   ) : (
-                    <>
-                      {/* Thumbnail Image */}
-                      <img 
-                        src={project.thumbnail} 
-                        alt={project.name} 
-                        className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
-                      />
-                      
-                      {/* Play Button Overlay for Video */}
-                      {videoId && (
-                        <div className="absolute inset-0 flex items-center justify-center">
-                          <button
-                            onClick={() => setPlayingVideo(`${idx}-${project.name}`)}
-                            className="bg-red-600 hover:bg-red-700 text-white p-4 rounded-full shadow-lg transform hover:scale-110 transition-all duration-200 group-hover:shadow-xl"
-                            title="Play video demo"
-                          >
-                            <svg className="w-8 h-8" fill="currentColor" viewBox="0 0 24 24">
-                              <path d="M8 5v14l11-7z"/>
-                            </svg>
-                          </button>
-                        </div>
-                      )}
-                      
-                      {/* Video Duration Badge */}
-                      {videoId && (
-                        <div className="absolute bottom-2 right-2 bg-black/80 text-white px-2 py-1 rounded text-xs font-medium">
-                          <svg className="w-3 h-3 inline mr-1" fill="currentColor" viewBox="0 0 24 24">
-                            <path d="M8 5v14l11-7z"/>
-                          </svg>
-                          Demo
-                        </div>
-                      )}
-                    </>
-                  )}
-                  
-                  {/* Featured Badge - Always Visible */}
-                  <div className="absolute top-3 left-3 z-30">
-                    <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800 border border-yellow-300 shadow-sm">
-                      ⭐ Featured
-                    </span>
-                  </div>
-                  
-                  {/* Hover Overlay with Project Details */}
-                  {!isPlaying && (
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-300 z-20">
-                      <div className="absolute inset-0 flex flex-col justify-end p-4">
-                        {/* Project Title in Overlay */}
-                        <h3 className="text-white font-bold text-lg mb-2 leading-tight">
-                          {project.name}
-                        </h3>
-                        
-                        {/* Brief Description */}
-                        <p className="text-gray-200 text-sm mb-3 line-clamp-2 leading-relaxed">
-                          {project.description}
-                        </p>
-                        
-                        {/* Project Duration */}
-                        <div className="flex items-center gap-2 mb-3 text-xs text-gray-300">
-                          <svg className="w-3 h-3 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                          </svg>
-                          <span>{formatDate(project.startDate)} - {project.endDate === 'PRESENT' ? 'Present' : formatDate(project.endDate)}</span>
-                        </div>
-                        
-                        {/* Technologies */}
-                        {project.skills && project.skills.length > 0 && (
-                          <div className="flex flex-wrap gap-1 mb-4">
-                            {project.skills.slice(0, 4).map((skill: any, skillIdx: number) => (
-                              <span 
-                                key={skillIdx} 
-                                className="inline-flex items-center gap-1 bg-white/20 backdrop-blur-sm rounded-md px-2 py-1 text-xs text-white border border-white/10"
-                              >
-                                {skill.logo && (
-                                  <img 
-                                    src={skill.logo} 
-                                    alt={skill.name} 
-                                    className="w-3 h-3 flex-shrink-0"
-                                    onError={(e) => {
-                                      e.currentTarget.style.display = 'none'
-                                    }}
-                                  />
-                                )}
-                                <span className="truncate">{skill.name}</span>
-                              </span>
-                            ))}
-                            {project.skills.length > 4 && (
-                              <span className="inline-flex items-center px-2 py-1 text-xs text-gray-300 bg-white/10 rounded-md border border-white/10">
-                                +{project.skills.length - 4}
-                              </span>
-                            )}
-                          </div>
-                        )}
-                        
-                        {/* Action Buttons */}
-                        <div className="flex gap-2">
-                          {project.liveLink && (
-                            <a 
-                              href={project.liveLink} 
-                              target="_blank" 
-                              rel="noopener noreferrer"
-                              className="flex-1 bg-green-600 hover:bg-green-700 text-white text-center py-2 px-3 rounded-lg transition-colors duration-200 text-sm font-medium min-w-0"
-                              onClick={(e) => e.stopPropagation()}
-                            >
-                              Live Demo
-                            </a>
-                          )}
-                          {project.githubLink && (
-                            <a 
-                              href={project.githubLink} 
-                              target="_blank" 
-                              rel="noopener noreferrer"
-                              className="flex-1 bg-gray-800 hover:bg-gray-900 text-white text-center py-2 px-3 rounded-lg transition-colors duration-200 text-sm font-medium min-w-0"
-                              onClick={(e) => e.stopPropagation()}
-                            >
-                              GitHub
-                            </a>
-                          )}
-                          {videoId && (
-                            <button
-                              onClick={(e) => {
-                                e.stopPropagation()
-                                setPlayingVideo(`${idx}-${project.name}`)
-                              }}
-                              className="bg-red-600 hover:bg-red-700 text-white p-2 rounded-lg transition-colors duration-200 flex items-center justify-center flex-shrink-0"
-                              title="Play video demo"
-                            >
-                              <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
-                                <path d="M8 5v14l11-7z"/>
-                              </svg>
-                            </button>
-                          )}
-                        </div>
+                    <div
+                      className="aspect-video w-full rounded-lg flex items-center justify-center"
+                      style={{
+                        backgroundColor: 'var(--theme-card)',
+                        border: '1px solid var(--theme-border)'
+                      }}
+                    >
+                      <div className="text-center">
+                        <svg
+                          className="w-12 h-12 mx-auto mb-2"
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                          style={{ color: 'var(--theme-text-muted)' }}
+                        >
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                        </svg>
+                        <p className="text-sm" style={{ color: 'var(--theme-text-muted)' }}>No preview</p>
                       </div>
                     </div>
                   )}
-                </div>
+                </TimelineOppositeContent>
 
-                {/* Simple Bottom Info - Always Visible */}
-                <div className="p-3">
-                  <h3 className="font-semibold text-gray-800 text-sm leading-tight line-clamp-1">
-                    {project.name}
-                  </h3>
-                  {videoId && (
-                    <div className="flex items-center gap-1 mt-1 text-xs text-gray-500">
-                      <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 24 24">
-                        <path d="M8 5v14l11-7z"/>
-                      </svg>
-                      <span>Video Demo Available</span>
+                {/* TIMELINE SEPARATOR */}
+                <TimelineSeparator>
+                  <TimelineDot />
+                  {idx < topProjects.length - 1 && <TimelineConnector />}
+                </TimelineSeparator>
+
+                {/* RIGHT: Project Info */}
+                <TimelineContent sx={{ flex: 1 }}>
+                  <div
+                    className="rounded-lg p-6 shadow-lg transition-all duration-300 hover:shadow-xl border"
+                    style={{
+                      backgroundColor: 'var(--theme-card)',
+                      borderColor: 'var(--theme-border)'
+                    }}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.backgroundColor = 'var(--theme-card-hover)'
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.backgroundColor = 'var(--theme-card)'
+                    }}
+                  >
+                    <h3
+                      className="font-bold text-xl mb-3"
+                      style={{ color: 'var(--theme-text-primary)' }}
+                    >
+                      {project.name}
+                    </h3>
+
+                    {/* Date Range */}
+                    {(project.startDate || project.endDate) && (
+                      <div className={`flex gap-2 mb-3 ${idx % 2 === 0 ? 'justify-start' : 'justify-end'}`}>
+                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" style={{ color: 'var(--theme-text-muted)' }}>
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                        </svg>
+                        <span className="text-sm font-medium" style={{ color: 'var(--theme-text-muted)' }}>
+                          {project.startDate && new Date(project.startDate).toLocaleDateString('en-US', {
+                            year: 'numeric',
+                            month: 'short'
+                          })}
+                          {project.startDate && ' - '}
+                          {project.endDate ? new Date(project.endDate).toLocaleDateString('en-US', {
+                            year: 'numeric',
+                            month: 'short'
+                          }) : (project.startDate ? 'Present' : '')}
+                        </span>
+                      </div>
+                    )}
+
+                    <p
+                      className="text-sm leading-relaxed mb-4 line-clamp-3"
+                      style={{ color: 'var(--theme-text-secondary)' }}
+                    >
+                      {project.description}
+                    </p>
+
+                    {/* Skills Used */}
+                    {project.skills && project.skills.length > 0 && (
+                      <div className={`gap-2 mb-3 ${idx % 2 === 0 ? 'justify-start' : 'justify-end'}`}>
+                        <h4 className="font-semibold text-sm text-gray-300 mb-2">Technologies Used</h4>
+                        <div className={`flex gap-2 mb-3 ${idx % 2 === 0 ? 'justify-start' : 'justify-end'}`}>
+                          {project.skills.map((skill: any, skillIdx: number) => (
+                            <span
+                              key={skillIdx}
+                              className="inline-flex items-center gap-2 rounded-lg px-3 py-1 text-xs font-medium bg-white/90 border border-gray-600/50 text-black-300"
+                            >
+                              {skill.logo && (
+                                <Image
+                                  width={16}
+                                  height={16}
+                                  src={skill.logo}
+                                  alt={skill.name}
+                                  className="rounded"
+                                  onError={(e) => {
+                                    e.currentTarget.style.display = 'none'
+                                  }}
+                                />
+                              )}
+                              {skill.name}
+                            </span>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+
+                    <div className={`flex gap-2 mb-3 ${idx % 2 === 0 ? 'justify-start' : 'justify-end'}`}>
+                      {project.liveLink && (
+                        <Link
+                          href={project.liveLink}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="inline-flex items-center gap-1 font-medium transition-colors duration-200 hover:opacity-80 hover:underline"
+                          style={{ color: 'var(--theme-accent)' }}
+                        >
+                          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                          </svg>
+                          Live Demo
+                        </Link>
+                      )}
+                      {project.githubLink && (
+                        <Link
+                          href={project.githubLink}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="inline-flex items-center gap-1 font-medium transition-colors duration-200 hover:opacity-80 hover:underline"
+                          style={{ color: 'var(--theme-text-secondary)' }}
+                        >
+                          <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z" />
+                          </svg>
+                          GitHub
+                        </Link>
+                      )}
                     </div>
-                  )}
-                </div>
-              </div>
+
+                  </div>
+                </TimelineContent>
+              </TimelineItem>
             )
           })}
-        </div>
-        
-        {/* Empty state if no top projects */}
-        {topProjects.length === 0 && projects.length > 0 && (
-          <div className="text-center py-12">
-            <div className="text-gray-400 mb-4">
-              <svg className="w-16 h-16 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
-              </svg>
-            </div>
-            <p className="text-gray-500 mb-2">No featured projects marked yet</p>
-            <p className="text-sm text-gray-400 mb-4">Mark your best projects as featured to showcase them here</p>
-            {username && (
-              <Link 
-                href={`/public-portfolio/${username}/projects`}
-                className="inline-block text-blue-600 hover:text-blue-800 font-medium"
-              >
-                View all projects
-              </Link>
-            )}
-          </div>
-        )}
+        </Timeline>
       </div>
     </section>
   )
 }
+
 
 export default TopProjectsPage
