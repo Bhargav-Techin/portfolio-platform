@@ -319,7 +319,7 @@ const PublicPortfolioPage = () => {
                 size="icon"
                 aria-label="Back to top"
             >
-                <ArrowUp className="w-5 h-5 transform group-hover:-translate-y-0.5 transition-transform duration-300" />
+                <ArrowUp className="w-8 h-8 text-white transform group-hover:-translate-y-0.5 transition-transform duration-300" />
             </Button>
 
             {/* Portfolio Chatbot */}

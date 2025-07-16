@@ -111,11 +111,16 @@ function createSystemPrompt(portfolio: any): string {
   const location = [city, state, country].filter(Boolean).join(', ')
 
   // Format skills (only top skills)
-  const topSkills = skills
-    .sort((a: any, b: any) => (b.confidence || 0) - (a.confidence || 0))
-    .slice(0, 5) // Only top 5 skills
-    .map((skill: any) => `${skill.name} (${skill.confidence}%)`)
-    .join(', ')
+// Format skills
+const topSkills = skills
+  .filter((skill: any) => skill.top)
+  .map((skill: any) => `${skill.name} (${skill.confidence}%)`)
+  .join(', ')
+
+const allSkills = skills
+  .map((skill: any) => `${skill.name} (${skill.confidence}%)`)
+  .join(', ')
+
 
   // Format projects (brief)
   const keyProjects = projects.slice(0, 3).map((project: any) => 
@@ -141,7 +146,11 @@ Name: ${fullName || 'Not specified'}
 Location: ${location || 'Not specified'}
 Bio: ${bio ? bio.substring(0, 150) + (bio.length > 150 ? '...' : '') : 'No bio provided'}
 
-TOP SKILLS: ${topSkills || 'No skills listed'}
+TOP SKILLS: ${topSkills || 'No top skills marked'}
+
+NOTE: If the user asks for *all* skills, you can share this full list:
+ALL SKILLS: ${allSkills || 'No skills listed'}
+
 
 KEY PROJECTS:
 ${keyProjects || 'No projects listed'}

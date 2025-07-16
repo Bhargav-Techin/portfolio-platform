@@ -1,103 +1,67 @@
+'use client';
 import Image from "next/image";
+import { ArrowRight, Sparkles, Code, Palette, Zap } from "lucide-react";
 
 export default function Home() {
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm/6 text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-[family-name:var(--font-geist-mono)] font-semibold">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
+    <main className="relative min-h-screen flex items-center justify-center text-white overflow-hidden">
+      {/* Background image */}
+      <Image
+        src="/landing-preview.png"
+        alt="Portfolio Preview"
+        layout="fill"
+        objectFit="cover"
+        className="z-0"
+        priority
+      />
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
+      {/* Simplified dark overlay for better text visibility */}
+      <div className="absolute inset-0 bg-black/70 z-10" />
+
+      {/* Content */}
+      <div className="relative z-20 text-center px-6 w-full">
+        {/* Simple badge */}
+        <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-purple-600/90 backdrop-blur-sm mb-8">
+          <Sparkles className="w-4 h-4 text-white" />
+          <span className="text-sm font-medium text-white">No Code Required</span>
+        </div>
+
+        {/* Main heading with better contrast */}
+        <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold mb-6 leading-tight">
+          <span className="text-white mr-2">
+            Portfolio
+          </span>
+          <span className="text-purple-400 ml-2">
+            Platform
+          </span>
+        </h1>
+
+        {/* Subtitle with high contrast */}
+        <h2 className="text-xl md:text-2xl lg:text-3xl font-semibold mb-8 text-gray-100">
+          Fill the form and get your portfolio{" "}
+          <span className="text-purple-400 font-bold">
+            like this
+          </span>
+        </h2>
+
+        {/* Description with better readability */}
+        <p className="text-lg md:text-xl text-gray-200 mb-12 max-w-2xl mx-auto leading-relaxed">
+          Create stunning developer portfolios in minutes with our intuitive platform. 
+          <span className="text-purple-300 font-semibold"> Stand out from the crowd</span> with 
+          professional designs that showcase your skills perfectly.
+        </p>
+
+        {/* Clean CTA Button */}
+        <div>
           <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+            href="/dashboard"
+            className="inline-flex items-center gap-3 px-8 py-4 text-lg font-bold text-white bg-purple-600 rounded-xl shadow-lg hover:bg-purple-700 transition-colors duration-300 hover:scale-105 transform"
           >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
+            <span>Get Started</span>
+            <ArrowRight className="w-5 h-5" />
           </a>
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
-    </div>
+      </div>
+    </main>
   );
 }
