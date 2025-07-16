@@ -3,16 +3,17 @@ import { NextRequest, NextResponse } from 'next/server'
 import clientPromise from '@/lib/mongodb'
 import { formatPortfolioFromDB } from '@/lib/defaultPortfolio'
 
-// Correct type definition for Next.js App Router
-type RouteContext = {
-  params: {
-    username: string
-  }
+// Correct type definition for Next.js App Router (Vercel compatible)
+interface RouteParams {
+  username: string
 }
 
-export async function GET(req: NextRequest, context: RouteContext) {
+export async function GET(
+  req: NextRequest,
+  { params }: { params: RouteParams }
+) {
   try {
-    const { username } = context.params
+    const { username } = params
 
     if (!username) {
       return NextResponse.json(
@@ -67,10 +68,10 @@ export async function GET(req: NextRequest, context: RouteContext) {
 // Optional: Add other HTTP methods if needed
 export async function PUT(
   request: NextRequest,
-  context: RouteContext
+  { params }: { params: RouteParams }
 ) {
   try {
-    const { username } = context.params
+    const { username } = params
     const updates = await request.json()
 
     // Add authentication/authorization logic here
