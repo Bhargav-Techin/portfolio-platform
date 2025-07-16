@@ -570,6 +570,8 @@ function ProjectsSection({ portfolio, onUpdate }: ProjectsSectionProps) {
                             <Image
                               src={project.thumbnail || getVideoThumbnail(project.videoLink) || ''}
                               alt={project.name || 'Project thumbnail'}
+                              width={400}
+                              height={200}
                               className="w-full h-40 object-cover rounded-lg border"
                               onError={(e) => {
                                 e.currentTarget.src = 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjEyMCIgdmlld0JveD0iMCAwIDIwMCAxMjAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIyMDAiIGhlaWdodD0iMTIwIiBmaWxsPSIjRjNGNEY2Ii8+CjxwYXRoIGQ9Ik08NyA0OEw4NyA3Mkw5MyA3Mkw5MyA0OEw4NyA0OFoiIGZpbGw9IiM5Q0EzQUYiLz4KPHA+'
@@ -828,6 +830,8 @@ function ProjectsSection({ portfolio, onUpdate }: ProjectsSectionProps) {
                                   <Image
                                     src={projectSkill.logo}
                                     alt={projectSkill.name}
+                                    width={16}
+                                    height={16}
                                     className="w-4 h-4 object-contain flex-shrink-0"
                                     style={{ filter: 'invert(0.3)' }}
                                   />
@@ -867,6 +871,8 @@ function ProjectsSection({ portfolio, onUpdate }: ProjectsSectionProps) {
                                 <Image
                                   src={projectSkill.logo}
                                   alt={projectSkill.name}
+                                  width={16}
+                                  height={16}
                                   className="w-4 h-4 object-contain flex-shrink-0"
                                   style={{ filter: 'invert(0.3)' }}
                                 />

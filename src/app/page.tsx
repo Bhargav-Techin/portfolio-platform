@@ -11,6 +11,8 @@ export default function Home() {
         alt="Portfolio Preview"
         layout="fill"
         objectFit="cover"
+        width={1920}
+        height={1080}
         className="z-0"
         priority
       />
@@ -46,8 +48,8 @@ export default function Home() {
 
         {/* Description with better readability */}
         <p className="text-lg md:text-xl text-gray-200 mb-12 max-w-2xl mx-auto leading-relaxed">
-          Create stunning developer portfolios in minutes with our intuitive platform. 
-          <span className="text-purple-300 font-semibold"> Stand out from the crowd</span> with 
+          Create stunning developer portfolios in minutes with our intuitive platform.
+          <span className="text-purple-300 font-semibold"> Stand out from the crowd</span> with
           professional designs that showcase your skills perfectly.
         </p>
 

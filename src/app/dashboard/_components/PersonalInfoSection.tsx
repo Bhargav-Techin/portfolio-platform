@@ -314,6 +314,8 @@ function PersonalInfoSection({ portfolio, onUpdate }: PersonalInfoSectionProps) 
                     <Image
                       src={formData.profilePicUrl}
                       alt="Profile"
+                      width={160}
+                      height={160}
                       className="w-40 h-40 rounded-lg object-cover border-2 border-gray-200 shadow-sm"
                       onError={(e) => {
                         e.currentTarget.src = 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjE2MCIgdmlld0JveD0iMCAwIDIwMCAxNjAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIyMDAiIGhlaWdodD0iMTYwIiBmaWxsPSIjRjNGNEY2Ii8+CjxjaXJjbGUgY3g9IjEwMCIgY3k9IjY1IiByPSIyNSIgZmlsbD0iIzlDQTNBRiIvPgo8cGF0aCBkPSJNNzAgMTEwQzc5IDEwNSA5MiAxMDUgMTAwIDEwNUMxMDggMTA1IDEyMSAxMDUgMTMwIDExMEMxMzAgMTIwIDEzMCAxMzAgMTMwIDE0MEg3MEM3MCAxMzAgNzAgMTIwIDcwIDExMFoiIGZpbGw9IiM5Q0EzQUYiLz4KPC9zdmc+'
@@ -547,6 +549,8 @@ function PersonalInfoSection({ portfolio, onUpdate }: PersonalInfoSectionProps) 
                               <Image
                                 src={platform.logo}
                                 alt={platform.name}
+                                width={24}
+                                height={24}
                                 className="w-4 h-4"
                                 style={{ filter: 'invert(0.5)' }}
                               />

@@ -99,6 +99,8 @@ const ProjectsPage: React.FC = () => {
                   <Image
                     src={project.thumbnail}
                     alt={project.name}
+                    width={1920}
+                    height={1080}
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                   />
 
@@ -150,6 +152,8 @@ const ProjectsPage: React.FC = () => {
                           <Image
                             src={skill.logo}
                             alt={skill.name}
+                            width={16}
+                            height={16}
                             className="w-4 h-4 rounded"
                             onError={(e) => {
                               e.currentTarget.style.display = 'none'

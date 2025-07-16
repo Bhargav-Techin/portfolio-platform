@@ -295,6 +295,8 @@ function CertificateSection({ portfolio, onUpdate }: CertificationsSectionProps)
                             <Image
                               src={certificate.pic}
                               alt={certificate.name || 'Certificate'}
+                              width={1920}
+                              height={1080}
                               className="w-full h-48 object-contain border rounded-lg p-2 bg-white cursor-pointer hover:shadow-lg transition-shadow"
                               onClick={() => !isEditing && window.open(certificate.pic, '_blank')}
                               onError={(e) => {

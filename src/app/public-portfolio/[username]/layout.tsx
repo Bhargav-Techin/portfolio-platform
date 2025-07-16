@@ -1,18 +1,8 @@
+// app/public-portfolio/[username]/layout.tsx
+
 import type { Metadata } from "next";
 import React from "react";
-import { Geist, Geist_Mono } from "next/font/google";
-import "../../globals.css";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
-
-// Dynamic metadata function
 export async function generateMetadata({
   params,
 }: {
@@ -29,9 +19,5 @@ export default function PublicPortfolioLayout({
 }: {
   children: React.ReactNode;
 }) {
-  return (
-    <html lang="en" className={`${geistSans.variable} ${geistMono.variable}`}>
-      <body>{children}</body>
-    </html>
-  );
+  return <>{children}</>; // 👈 no <html> or <body> here
 }

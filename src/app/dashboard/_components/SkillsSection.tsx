@@ -510,6 +510,8 @@ const popularSkills = [
                                 <Image
                                   src={suggestion.logo}
                                   alt={suggestion.name}
+                                  width={20}
+                                  height={20}
                                   className="w-5 h-5 object-contain flex-shrink-0"
                                   style={{ filter: 'invert(0.3)' }}
                                 />
@@ -582,6 +584,8 @@ const popularSkills = [
                               <Image
                                 src={skill.logo}
                                 alt={skill.name || 'Skill logo'}
+                                width={80}
+                                height={80}
                                 className="w-20 h-20 object-contain rounded-lg border p-2"
                                 onError={(e) => {
                                   e.currentTarget.src = 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iODAiIGhlaWdodD0iODAiIHZpZXdCb3g9IjAgMCA4MCA4MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3Qgd2lkdGg9IjgwIiBoZWlnaHQ9IjgwIiBmaWxsPSIjRjNGNEY2Ii8+CjxwYXRoIGQ9Ik0zNSAzMEwzNSA1MEw0NSA1MEw0NSAzMEwzNSAzMFoiIGZpbGw9IiM5Q0EzQUYiLz4KPC9zdmc+'

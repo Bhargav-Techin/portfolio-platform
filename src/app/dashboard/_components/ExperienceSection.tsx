@@ -432,6 +432,8 @@ function ExperienceSection({ portfolio, onUpdate }: ExperienceSectionProps) {
                             <Image
                               src={experience.companyLogoUrl}
                               alt={`${experience.companyName} logo`}
+                              width={80}
+                              height={80}
                               className="w-20 h-20 object-contain border rounded-lg p-2 bg-white"
                             />
                           </div>

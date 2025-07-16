@@ -142,6 +142,8 @@ const EducationPage: React.FC<EducationPageProps> = ({ portfolio }) => {
                         <Image
                           src={edu.schoolLogoUrl}
                           alt={edu.school}
+                          width={80}
+                          height={80}
                           className="w-12 h-12 object-contain rounded-lg border border-gray-600 bg-white p-1"
                         />
                       </div>

@@ -181,6 +181,8 @@ const TopProjectsPage: React.FC<TopProjectsTimelineProps> = ({ portfolio, userna
                         <Image
                           src={project.thumbnail}
                           alt={project.name}
+                          width={1920}
+                          height={1080}
                           className="w-full h-full object-cover"
                         />
                       </div>
@@ -408,6 +410,8 @@ const TopProjectsPage: React.FC<TopProjectsTimelineProps> = ({ portfolio, userna
                       <Image
                         src={project.thumbnail}
                         alt={project.name}
+                        width={1920}
+                        height={1080}
                         className="w-full h-full object-cover"
                       />
                     </div>

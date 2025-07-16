@@ -19,6 +19,8 @@ const PersonalInfoPage: React.FC<PersonalInfoPageProps> = ({ portfolio }) => {
                     <Image
                         src={portfolio.profilePicUrl}
                         alt={portfolio.fullName || portfolio.username}
+                        width={200}
+                        height={200}
                         className="w-60 h-60 sm:w-60 sm:h-60 md:w-80 md:h-80 rounded-lg object-cover border-4 border-primary shadow-lg mb-4 md:mb-0"
                     />
                 )}
@@ -45,7 +47,7 @@ const PersonalInfoPage: React.FC<PersonalInfoPageProps> = ({ portfolio }) => {
                                 rel="noopener noreferrer"
                                 className="inline-flex items-center gap-2 px-2 sm:px-3 py-1 bg-gray-700/50 hover:bg-gray-600/80 rounded-lg transition-all duration-200 text-gray-200 hover:text-white shadow-sm text-xs sm:text-sm"
                             >
-                                <Image src={link.logo} alt={link.name} className="w-4 h-4 sm:w-5 sm:h-5" />
+                                <Image src={link.logo} alt={link.name} width={16} height={16} className="w-4 h-4 sm:w-5 sm:h-5" />
                                 <span className="font-medium">{link.name}</span>
                             </a>
                         ))}
