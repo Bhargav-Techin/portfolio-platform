@@ -13,6 +13,7 @@ import { usePortfolio } from '@/context/PortfolioContext'
 import { Button } from '@/components/ui/button'
 import { ChevronLeft, ChevronRight, RefreshCw } from 'lucide-react'
 import { Portfolio } from '@/types/portfolio'
+import { Metadata } from 'next'
 
 // Section interface for type safety
 interface Section {
