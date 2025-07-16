@@ -8,10 +8,10 @@ import MatterAttractors from 'matter-attractors'
 // @ts-ignore
 import MatterWrap from 'matter-wrap'
 
-Matter.use(MatterAttractors)
-Matter.use(MatterWrap)
 
 export default function MatterFollower() {
+  Matter.use(MatterAttractors)
+  Matter.use(MatterWrap)
   const canvasRef = useRef<HTMLDivElement>(null)
   const matterInstance = useRef<any>(null)
 

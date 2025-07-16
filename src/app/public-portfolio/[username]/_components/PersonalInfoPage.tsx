@@ -2,16 +2,13 @@ import React from 'react'
 import { Portfolio } from '@/types/portfolio'
 import MatterFollower from '@/components/MatterFollower'
 import Link from 'next/link'
-import DarkParticleFollower from '@/components/DarkParticleFollower'
-import { MoveDown } from 'lucide-react'
 import Image from 'next/image'
 
 interface PersonalInfoPageProps {
     portfolio: Portfolio
-    username: string
 }
 
-const PersonalInfoPage: React.FC<PersonalInfoPageProps> = ({ portfolio, username }) => {
+const PersonalInfoPage: React.FC<PersonalInfoPageProps> = ({ portfolio }) => {
     return (
         <section className="relative flex items-center justify-center min-h-[80vh] sm:min-h-screen bg-gray-900 text-white px-2 sm:px-4 md:px-8 overflow-hidden pointer-events-none">
             <MatterFollower />
@@ -27,10 +24,9 @@ const PersonalInfoPage: React.FC<PersonalInfoPageProps> = ({ portfolio, username
                 )}
                 <div className="w-full">
                     <h1 className="text-2xl sm:text-3xl font-bold mb-2 sm:mb-4">
-                        Hi, I'm
+                        Hi, I&apos;m
                     </h1>
                     <h1 className="text-3xl sm:text-5xl font-bold mb-2 sm:mb-4 bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-
                         {portfolio.fullName}
                     </h1>
                     <p className="text-white font-semibold mb-2 sm:mb-4 text-base sm:text-lg break-words">{portfolio.bio}</p>

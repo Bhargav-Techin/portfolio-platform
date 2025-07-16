@@ -253,7 +253,7 @@ const PublicPortfolioPage = () => {
             {/* Personal Info Section */}
             <section id="about" className="-mt-20">
                 <div className="backdrop-blur-sm bg-transparent border-none">
-                    <PersonalInfoPage portfolio={portfolio} username={username} />
+                    <PersonalInfoPage portfolio={portfolio} />
                 </div>
             </section>
 
