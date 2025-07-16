@@ -3,12 +3,9 @@ import { NextRequest, NextResponse } from 'next/server'
 import clientPromise from '@/lib/mongodb'
 import { formatPortfolioFromDB } from '@/lib/defaultPortfolio'
 
-export async function GET(
-  request: NextRequest,
-  { params }: { params: { username: string } }
-) {
+export async function GET(req: NextRequest, context: { params: { username: string } }) {
   try {
-    const { username } = params
+    const { username } = context.params
 
     if (!username) {
       return NextResponse.json(
