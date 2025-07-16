@@ -66,7 +66,7 @@ const CertificationPage: React.FC<CertificationPageProps> = ({ portfolio }) => {
               autoPlay={true}
               interval={5000}
               stopOnHover={true}
-              swipeable={true}
+              swipeable={false}
               emulateTouch={true}
               className="certification-carousel"
               renderArrowPrev={(onClickHandler, hasPrev, label) =>
