@@ -106,7 +106,7 @@ const ProjectsPage: React.FC = () => {
 
                   {/* Play Button Overlay */}
                   {videoId && (
-                    <div className="absolute inset-0 flex items-center justify-center bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                    <div className="absolute inset-0 flex items-center justify-center bg-black/20 opacity-100 transition-opacity duration-300">
                       <button
                         onClick={() => setPlayingVideo(`${index}-${project.name}`)}
                         className="bg-red-600 hover:bg-red-700 text-white p-4 rounded-full shadow-lg transform hover:scale-110 transition-all duration-200"
