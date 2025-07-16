@@ -1,16 +1,20 @@
-// app/public-portfolio/[username]/layout.tsx
+// src/app/public-portfolio/[username]/layout.tsx
+import { Metadata } from 'next';
 
-import type { Metadata } from "next";
-import React from "react";
+interface RouteParams {
+  username: string;
+}
 
 export async function generateMetadata({
   params,
 }: {
-  params: { username: string };
+  params: Promise<RouteParams>;
 }): Promise<Metadata> {
+  const { username } = await params;
+  
   return {
-    title: `Portfolio of ${params.username}`,
-    description: `Explore ${params.username}'s portfolio on the Portfolio platform.`,
+    title: `Portfolio of ${username}`,
+    description: `Explore ${username}'s portfolio on the Portfolio platform.`,
   };
 }
 
@@ -19,5 +23,5 @@ export default function PublicPortfolioLayout({
 }: {
   children: React.ReactNode;
 }) {
-  return <>{children}</>; // 👈 no <html> or <body> here
+  return children;
 }
