@@ -65,6 +65,8 @@ function ProjectsSection({ portfolio, onUpdate }: ProjectsSectionProps) {
 
   // Available skills from user's portfolio for the dropdown
   const [availableSkills, setAvailableSkills] = useState<Skill[]>([])
+  const [customSkillName, setCustomSkillName] = useState('');
+  const [customSkillLogo, setCustomSkillLogo] = useState('');
 
   // Maximum number of top projects allowed
   const MAX_TOP_PROJECTS = 3
@@ -777,6 +779,41 @@ function ProjectsSection({ portfolio, onUpdate }: ProjectsSectionProps) {
                             ))
                           }
                         </select>
+                        <div className="flex flex-col gap-2 mt-2">
+                          <div className="flex flex-row gap-1">
+                            <input
+                            type="text"
+                            placeholder="Enter custom skill name"
+                            value={customSkillName}
+                            onChange={(e) => setCustomSkillName(e.target.value)}
+                            className="w-full p-2 border border-gray-300 rounded-md text-sm"
+                          />
+                          <input
+                            type="text"
+                            placeholder="Enter skill image URL"
+                            value={customSkillLogo}
+                            onChange={(e) => setCustomSkillLogo(e.target.value)}
+                            className="w-full p-2 border border-gray-300 rounded-md text-sm"
+                          />
+                          </div>
+                          <Button
+                            type="button"
+                            onClick={() => {
+                              const trimmedName = customSkillName.trim();
+                              const trimmedLogo = customSkillLogo.trim();
+
+                              if (trimmedName && !project.skills.some(skill => skill.name === trimmedName)) {
+                                const newSkill = { name: trimmedName, logo: trimmedLogo };
+                                updateProject(index, 'skills', [...project.skills, newSkill]);
+                                setCustomSkillName('');
+                                setCustomSkillLogo('');
+                              }
+                            }}
+                          >
+                            Add Custom Skill
+                          </Button>
+                        </div>
+
                         {/* Selected Skills */}
                         <div className="flex flex-wrap gap-2">
                           {project.skills.map((projectSkill) => (
