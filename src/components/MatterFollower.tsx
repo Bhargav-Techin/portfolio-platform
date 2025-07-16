@@ -186,7 +186,7 @@ export default function MatterFollower() {
     }
   }, [])
 
-  return <div ref={canvasRef} className="absolute inset-0 block sm:pointer-events-auto"
+  return <div ref={canvasRef} className="absolute inset-0 block md:pointer-events-auto"
     style={{
       background: `radial-gradient(circle at 50% 50%, #0d0d1a 0%, #000000 100%)`,
     }} />

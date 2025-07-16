@@ -28,7 +28,7 @@ const PersonalInfoPage: React.FC<PersonalInfoPageProps> = ({ portfolio }) => {
                     <h1 className="text-2xl sm:text-3xl font-bold mb-2 sm:mb-4">
                         Hi, I&apos;m
                     </h1>
-                    <h1 className="text-3xl sm:text-5xl font-bold mb-2 sm:mb-4 bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+                    <h1 className="text-3xl sm:text-5xl font-bold py-2 mb-2 sm:mb-4 bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
                         {portfolio.fullName}
                     </h1>
                     <p className="text-white font-semibold mb-2 sm:mb-4 text-base sm:text-lg break-words">{portfolio.bio}</p>

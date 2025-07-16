@@ -88,7 +88,7 @@ const SkillsPage: React.FC = () => {
   return (
     <div className="min-h-screen relative bg-gradient-to-b from-black to-gray-900 text-white">
       <section className="relative py-12 px-4 max-w-7xl mx-auto">
-        <h1 className="text-4xl md:text-5xl font-bold text-center mb-8 bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 bg-clip-text text-transparent">
+        <h1 className="text-4xl py-2 md:text-5xl font-bold text-center mb-8 bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 bg-clip-text text-transparent">
           {portfolio.fullName}'s Skills
         </h1>
         <p className="text-center text-xl text-gray-300 mb-12">Explore my technical expertise and proficiency levels</p>
