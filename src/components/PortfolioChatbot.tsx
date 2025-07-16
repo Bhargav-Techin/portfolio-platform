@@ -355,7 +355,7 @@ const PortfolioChatbot: React.FC<ChatbotProps> = ({ isOpen, onToggle, username }
   // Show loading state while fetching portfolio
   if (portfolioLoading) {
     return (
-      <div className="fixed bottom-20 right-4 z-50">
+      <div className="fixed bottom-20 right-2 sm:right-4 z-50 max-w-[calc(100vw-1rem)] sm:max-w-none">
         <Card className="w-96 shadow-2xl border-2 border-gray-700 bg-gray-800 h-32">
           <CardContent className="p-6 flex items-center justify-center">
             <div className="flex items-center gap-3 text-gray-300">
@@ -371,7 +371,7 @@ const PortfolioChatbot: React.FC<ChatbotProps> = ({ isOpen, onToggle, username }
   // Show error state
   if (portfolioError) {
     return (
-      <div className="fixed bottom-20 right-4 z-50">
+      <div className="fixed bottom-20 right-2 sm:right-4 z-50 max-w-[calc(100vw-1rem)] sm:max-w-none">
         <Card className="w-96 shadow-2xl border-2 border-red-700 bg-gray-800">
           <CardHeader className="p-4 bg-red-900/50 rounded-t-lg">
             <CardTitle className="text-sm font-medium text-red-300">
@@ -393,8 +393,8 @@ const PortfolioChatbot: React.FC<ChatbotProps> = ({ isOpen, onToggle, username }
   if (!portfolio) return null
 
   return (
-    <div className="fixed bottom-20 right-4 z-50">
-      <Card className="w-96 h-[500px] p-0 mb-2 shadow-2xl border-2 border-gray-700 bg-gray-800 flex flex-col overflow-hidden">
+    <div className="fixed bottom-20 right-2 sm:right-4 z-50 max-w-[calc(100vw-1rem)] sm:max-w-none">
+      <Card className="w-80 sm:w-96 h-[400px] sm:h-[500px] md:h-[500px] p-0 mb-2 shadow-2xl border-2 border-gray-700 bg-gray-800 flex flex-col overflow-hidden">
         <CardHeader className="p-4 bg-gradient-to-r from-blue-600 to-purple-700 text-white flex-shrink-0">
           <CardTitle className="text-sm font-medium flex items-center gap-2">
             <Bot className="w-4 h-4" />
@@ -430,7 +430,7 @@ const PortfolioChatbot: React.FC<ChatbotProps> = ({ isOpen, onToggle, username }
                   <div className={`flex-1 min-w-0 ${
                     message.role === 'user' ? 'text-right' : ''
                   }`}>
-                    <div className={`inline-block p-3 rounded-lg text-sm max-w-[85%] ${
+                    <div className={`inline-block p-2 sm:p-3 rounded-lg text-xs sm:text-sm max-w-[90%] sm:max-w-[85%] ${
                       message.role === 'user'
                         ? 'bg-gradient-to-r from-blue-600 to-blue-700 text-white rounded-br-none shadow-md'
                         : 'bg-gray-700 text-gray-100 rounded-bl-none shadow-sm border border-gray-600'
@@ -467,7 +467,7 @@ const PortfolioChatbot: React.FC<ChatbotProps> = ({ isOpen, onToggle, username }
           </div>
 
           {/* Input Area */}
-          <div className="px-4 py-3 border-t border-gray-700 bg-gray-800 flex-shrink-0 shadow-sm">
+          <div className="px-2 sm:px-4 py-2 sm:py-3 border-t border-gray-700 bg-gray-800 flex-shrink-0 shadow-sm">
             <div className="flex items-center gap-3">
               <Input
                 ref={inputRef}
@@ -523,7 +523,7 @@ export const ChatbotFAB: React.FC<{ username?: string }> = ({ username }) => {
       <div className="fixed bottom-6 right-6 z-40">
         <Button
           onClick={() => setIsOpen(!isOpen)}
-          className="w-14 h-14 rounded-full shadow-lg bg-gradient-to-r from-blue-600 to-purple-700 hover:from-blue-700 hover:to-purple-800 transition-all duration-300 transform hover:scale-110"
+          className="w-12 h-12 sm:w-14 sm:h-14 rounded-full shadow-lg bg-gradient-to-r from-blue-600 to-purple-700 hover:from-blue-700 hover:to-purple-800 transition-all duration-300 transform hover:scale-110"
         >
           {isOpen ? (
             <X className="w-6 h-6 text-white" />

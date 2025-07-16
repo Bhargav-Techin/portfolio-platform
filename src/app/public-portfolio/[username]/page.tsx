@@ -251,7 +251,7 @@ const PublicPortfolioPage = () => {
             <PortfolioNavBar portfolio={portfolio} username={username} />
 
             {/* Personal Info Section */}
-            <section id="about" className="-mt-20">
+            <section id="about" className="-mt-10">
                 <div className="backdrop-blur-sm bg-transparent border-none">
                     <PersonalInfoPage portfolio={portfolio} />
                 </div>
