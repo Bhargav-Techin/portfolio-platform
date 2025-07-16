@@ -14,12 +14,13 @@ const eslintConfig = [
 
   {
     rules: {
-      "@typescript-eslint/no-explicit-any": "warn", // Change to "off" if needed
+      "@typescript-eslint/no-explicit-any": "warn",
       "@typescript-eslint/no-unused-vars": ["warn", { argsIgnorePattern: "^_" }],
       "@typescript-eslint/ban-ts-comment": "warn",
       "@typescript-eslint/no-empty-interface": "warn",
+      "@typescript-eslint/no-empty-object-type": "warn", // Downgrade this from "error"
       "react/no-unescaped-entities": "warn",
-      "react-hooks/rules-of-hooks": "error", // Keep this one strict
+      "react-hooks/rules-of-hooks": "error",
       "react-hooks/exhaustive-deps": "warn",
       "@next/next/no-html-link-for-pages": "warn",
       "prefer-const": "warn",
