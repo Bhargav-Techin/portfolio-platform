@@ -48,6 +48,7 @@ import {
   CloudinaryResponse,
   ExperienceSectionProps
 } from '@/types/portfolio'
+import Image from 'next/image'
 
 function ExperienceSection({ portfolio, onUpdate }: ExperienceSectionProps) {
   const [formData, setFormData] = useState<{ experiences: Experience[] }>({
@@ -428,7 +429,7 @@ function ExperienceSection({ portfolio, onUpdate }: ExperienceSectionProps) {
                       <div className="space-y-2">
                         {experience.companyLogoUrl ? (
                           <div className="relative">
-                            <img
+                            <Image
                               src={experience.companyLogoUrl}
                               alt={`${experience.companyName} logo`}
                               className="w-20 h-20 object-contain border rounded-lg p-2 bg-white"

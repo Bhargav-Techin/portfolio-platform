@@ -178,7 +178,7 @@ const TopProjectsPage: React.FC<TopProjectsTimelineProps> = ({ portfolio, userna
                           border: '1px solid var(--theme-border)'
                         }}
                       >
-                        <img
+                        <Image
                           src={project.thumbnail}
                           alt={project.name}
                           className="w-full h-full object-cover"
@@ -405,7 +405,7 @@ const TopProjectsPage: React.FC<TopProjectsTimelineProps> = ({ portfolio, userna
                         border: '1px solid var(--theme-border)'
                       }}
                     >
-                      <img
+                      <Image
                         src={project.thumbnail}
                         alt={project.name}
                         className="w-full h-full object-cover"

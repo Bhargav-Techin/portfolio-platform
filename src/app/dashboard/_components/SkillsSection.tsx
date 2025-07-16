@@ -35,6 +35,7 @@ import {
   SkillsSectionProps,
   SkillLevel
 } from '@/types/portfolio'
+import Image from 'next/image'
 
 function SkillsSection({ portfolio, onUpdate }: SkillsSectionProps) {
   const [formData, setFormData] = useState<{ skills: Skill[] }>({
@@ -506,7 +507,7 @@ const popularSkills = [
                               onMouseEnter={() => { setActiveSuggestion(prev => ({ ...prev, [index]: suggestionIndex })) }}
                             >
                               {suggestion.logo && (
-                                <img
+                                <Image
                                   src={suggestion.logo}
                                   alt={suggestion.name}
                                   className="w-5 h-5 object-contain flex-shrink-0"
@@ -578,7 +579,7 @@ const popularSkills = [
                         <div className="space-y-2">
                           {skill.logo ? (
                             <div className="relative">
-                              <img
+                              <Image
                                 src={skill.logo}
                                 alt={skill.name || 'Skill logo'}
                                 className="w-20 h-20 object-contain rounded-lg border p-2"

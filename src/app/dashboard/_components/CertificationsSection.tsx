@@ -44,6 +44,7 @@ import {
   CloudinaryResponse,
   CertificationsSectionProps
 } from '@/types/portfolio'
+import Image from 'next/image'
 
 function CertificateSection({ portfolio, onUpdate }: CertificationsSectionProps) {
   const [formData, setFormData] = useState<{ certificates: Certificate[] }>({
@@ -291,7 +292,7 @@ function CertificateSection({ portfolio, onUpdate }: CertificationsSectionProps)
                       <div className="space-y-2">
                         {certificate.pic ? (
                           <div className="relative group">
-                            <img
+                            <Image
                               src={certificate.pic}
                               alt={certificate.name || 'Certificate'}
                               className="w-full h-48 object-contain border rounded-lg p-2 bg-white cursor-pointer hover:shadow-lg transition-shadow"

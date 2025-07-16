@@ -33,6 +33,7 @@ import {
   CloudinaryResponse,
   PersonalInfoSectionProps
 } from '@/types/portfolio'
+import Image from 'next/image'
 
 function PersonalInfoSection({ portfolio, onUpdate }: PersonalInfoSectionProps) {
   const [formData, setFormData] = useState<PersonalInfoFormData>({
@@ -310,7 +311,7 @@ function PersonalInfoSection({ portfolio, onUpdate }: PersonalInfoSectionProps) 
               <div className="space-y-2 flex-shrink-0">
                 {formData.profilePicUrl ? (
                   <div className="relative">
-                    <img
+                    <Image
                       src={formData.profilePicUrl}
                       alt="Profile"
                       className="w-40 h-40 rounded-lg object-cover border-2 border-gray-200 shadow-sm"
@@ -543,7 +544,7 @@ function PersonalInfoSection({ portfolio, onUpdate }: PersonalInfoSectionProps) 
                         {socialPlatforms.map((platform) => (
                           <SelectItem key={platform.name} value={platform.name}>
                             <div className="flex items-center gap-2">
-                              <img
+                              <Image
                                 src={platform.logo}
                                 alt={platform.name}
                                 className="w-4 h-4"

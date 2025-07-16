@@ -44,6 +44,7 @@ import {
   CloudinaryResponse,
   EducationSectionProps
 } from '@/types/portfolio'
+import Image from 'next/image'
 
 function EducationSection({ portfolio, onUpdate }: EducationSectionProps) {
   const [formData, setFormData] = useState<{ education: Education[] }>({
@@ -367,7 +368,7 @@ function EducationSection({ portfolio, onUpdate }: EducationSectionProps) {
                       <div className="space-y-2">
                         {education.schoolLogoUrl ? (
                           <div className="relative">
-                            <img
+                            <Image
                               src={education.schoolLogoUrl}
                               alt={`${education.school} logo`}
                               className="w-20 h-20 object-contain border rounded-lg p-2 bg-white"

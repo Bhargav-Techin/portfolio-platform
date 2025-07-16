@@ -4,6 +4,7 @@ import MatterFollower from '@/components/MatterFollower'
 import Link from 'next/link'
 import DarkParticleFollower from '@/components/DarkParticleFollower'
 import { MoveDown } from 'lucide-react'
+import Image from 'next/image'
 
 interface PersonalInfoPageProps {
     portfolio: Portfolio
@@ -18,7 +19,7 @@ const PersonalInfoPage: React.FC<PersonalInfoPageProps> = ({ portfolio, username
             <div className="relative w-full max-w-6xl flex flex-col md:flex-row gap-8 md:gap-16 items-center text-center md:text-left py-16 md:py-24">
                 {/* Only render the image if profilePicUrl is truthy */}
                 {portfolio.profilePicUrl && (
-                    <img
+                    <Image
                         src={portfolio.profilePicUrl}
                         alt={portfolio.fullName || portfolio.username}
                         className="w-60 h-60 sm:w-60 sm:h-60 md:w-80 md:h-80 rounded-lg object-cover border-4 border-primary shadow-lg mb-4 md:mb-0"
@@ -48,7 +49,7 @@ const PersonalInfoPage: React.FC<PersonalInfoPageProps> = ({ portfolio, username
                                 rel="noopener noreferrer"
                                 className="inline-flex items-center gap-2 px-2 sm:px-3 py-1 bg-gray-700/50 hover:bg-gray-600/80 rounded-lg transition-all duration-200 text-gray-200 hover:text-white shadow-sm text-xs sm:text-sm"
                             >
-                                <img src={link.logo} alt={link.name} className="w-4 h-4 sm:w-5 sm:h-5" />
+                                <Image src={link.logo} alt={link.name} className="w-4 h-4 sm:w-5 sm:h-5" />
                                 <span className="font-medium">{link.name}</span>
                             </a>
                         ))}

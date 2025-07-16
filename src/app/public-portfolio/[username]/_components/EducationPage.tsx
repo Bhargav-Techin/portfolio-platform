@@ -11,6 +11,7 @@ import TimelineOppositeContent, {
   timelineOppositeContentClasses,
 } from '@mui/lab/TimelineOppositeContent'
 import { GraduationCap, ExternalLink, MapPin, Calendar, BookOpen, Award } from 'lucide-react'
+import Image from 'next/image'
 
 interface EducationPageProps {
   portfolio: Portfolio
@@ -138,7 +139,7 @@ const EducationPage: React.FC<EducationPageProps> = ({ portfolio }) => {
                     </div>
                     {edu.schoolLogoUrl && (
                       <div className="flex-shrink-0 ml-4">
-                        <img
+                        <Image
                           src={edu.schoolLogoUrl}
                           alt={edu.school}
                           className="w-12 h-12 object-contain rounded-lg border border-gray-600 bg-white p-1"

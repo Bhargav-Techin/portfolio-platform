@@ -96,7 +96,7 @@ const ProjectsPage: React.FC = () => {
                 </div>
               ) : (
                 <div className="relative w-full h-56 group">
-                  <img
+                  <Image
                     src={project.thumbnail}
                     alt={project.name}
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
@@ -147,7 +147,7 @@ const ProjectsPage: React.FC = () => {
                         className="inline-flex items-center gap-1 rounded-lg px-3 py-1 text-xs font-medium bg-gray-700/50 border border-gray-600/50 text-gray-300"
                       >
                         {skill.logo && (
-                          <img
+                          <Image
                             src={skill.logo}
                             alt={skill.name}
                             className="w-4 h-4 rounded"

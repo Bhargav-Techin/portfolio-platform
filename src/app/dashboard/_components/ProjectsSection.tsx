@@ -52,6 +52,7 @@ import {
   ProjectsSectionProps,
   ProjectSkill
 } from '@/types/portfolio'
+import Image from 'next/image'
 
 function ProjectsSection({ portfolio, onUpdate }: ProjectsSectionProps) {
   const [formData, setFormData] = useState<{ projects: Project[] }>({
@@ -566,7 +567,7 @@ function ProjectsSection({ portfolio, onUpdate }: ProjectsSectionProps) {
                       <div className="space-y-2">
                         {(project.thumbnail || project.videoLink) && (
                           <div className="relative">
-                            <img
+                            <Image
                               src={project.thumbnail || getVideoThumbnail(project.videoLink) || ''}
                               alt={project.name || 'Project thumbnail'}
                               className="w-full h-40 object-cover rounded-lg border"
@@ -824,7 +825,7 @@ function ProjectsSection({ portfolio, onUpdate }: ProjectsSectionProps) {
                             >
                               <div className="flex items-center gap-2">
                                 {projectSkill.logo && (
-                                  <img
+                                  <Image
                                     src={projectSkill.logo}
                                     alt={projectSkill.name}
                                     className="w-4 h-4 object-contain flex-shrink-0"
@@ -863,7 +864,7 @@ function ProjectsSection({ portfolio, onUpdate }: ProjectsSectionProps) {
                           >
                             <div className="flex items-center gap-2">
                               {projectSkill.logo && (
-                                <img
+                                <Image
                                   src={projectSkill.logo}
                                   alt={projectSkill.name}
                                   className="w-4 h-4 object-contain flex-shrink-0"
