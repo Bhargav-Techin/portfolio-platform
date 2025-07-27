@@ -25,12 +25,13 @@ const PersonalInfoPage: React.FC<PersonalInfoPageProps> = ({ portfolio }) => {
                     />
                 )}
                 <div className="w-full">
-                    <h1 className="text-2xl sm:text-3xl font-bold mb-2 sm:mb-4">
+                    <h1 className="text-2xl sm:text-3xl font-bold sm:mb-4">
                         Hi, I&apos;m
                     </h1>
-                    <h1 className="text-3xl sm:text-5xl font-bold py-2 mb-2 sm:mb-4 bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+                    <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-8xl font-extrabold leading-tight py-2 bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
                         {portfolio.fullName}
                     </h1>
+
                     <p className="text-white font-semibold mb-2 sm:mb-4 text-base sm:text-lg break-words">{portfolio.bio}</p>
                     <div className="flex flex-wrap justify-center md:justify-start gap-2 sm:gap-3 mb-2 sm:mb-4">
                         <span className="bg-gray-800/70 px-3 sm:px-4 py-1 rounded-full text-xs sm:text-sm font-medium text-gray-200 shadow-sm">

@@ -1,9 +1,11 @@
 // src/app/public-portfolio/[username]/layout.tsx
+import StarsCanvas from '@/components/StarCanvas';
 import { Metadata } from 'next';
 
 interface RouteParams {
   username: string;
 }
+
 
 export async function generateMetadata({
   params,
@@ -23,5 +25,13 @@ export default function PublicPortfolioLayout({
 }: {
   children: React.ReactNode;
 }) {
-  return children;
+  return (
+    <div className="relative w-full min-h-screen overflow-hidden">
+      {/* Background Stars */}
+      <StarsCanvas />
+
+      {/* Foreground Content */}
+      <main className="relative z-10">{children}</main>
+    </div>
+  );
 }

@@ -47,8 +47,8 @@ const CertificationPage: React.FC<CertificationPageProps> = ({ portfolio }) => {
     <section className="py-8 text-white">
       <div className="container mx-auto px-4">
         <div className="text-center">
-          <h2 className="text-4xl font-bold mb-4 bg-gradient-to-r from-yellow-400 to-orange-600 bg-clip-text text-transparent">
-            Certifications & Achievements
+          <h2 className={`font-geisSans text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold bg-gradient-to-r from-blue-400 to-purple-600 bg-clip-text text-transparent dark:from-blue-300 dark:to-purple-500`}>
+            Certifications
           </h2>
           <p className="text-gray-400 text-lg">
             Professional certifications and credentials that validate my expertise

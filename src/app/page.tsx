@@ -9,11 +9,8 @@ export default function Home() {
       <Image
         src="/landing-preview.png"
         alt="Portfolio Preview"
-        layout="fill"
-        objectFit="cover"
-        width={1920}
-        height={1080}
-        className="z-0"
+        fill
+        className="z-0 object-cover"
         priority
       />
 

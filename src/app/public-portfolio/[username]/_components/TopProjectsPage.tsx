@@ -71,11 +71,12 @@ const TopProjectsPage: React.FC<TopProjectsTimelineProps> = ({ portfolio, userna
         '--theme-text-secondary': '#94a3b8',
         '--theme-text-muted': '#64748b',
         '--theme-accent': '#3b82f6',
-        '--theme-accent-hover': '#2563eb',
-        backgroundColor: 'var(--theme-bg)'
+        '--theme-accent-hover': '#2563eb'
       } as React.CSSProperties}>
         <div className="max-w-6xl mx-auto px-4 text-center">
-          <h2 className="text-4xl font-bold mb-4 bg-gradient-to-r from-green-400 to-blue-600 bg-clip-text text-transparent">Top Projects</h2>
+          <h2 className={`font-geisSans text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold bg-gradient-to-r from-blue-400 to-purple-600 bg-clip-text text-transparent dark:from-blue-300 dark:to-purple-500`}>
+            Top Projects
+          </h2>
           <p className="mb-4 text-sm md:text-base" style={{ color: 'var(--theme-text-secondary)' }}>My most significant and impactful work</p>
 
           <div className="py-12" style={{ color: 'var(--theme-text-muted)' }}>
@@ -83,15 +84,6 @@ const TopProjectsPage: React.FC<TopProjectsTimelineProps> = ({ portfolio, userna
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
             </svg>
             <p className="text-sm md:text-base">No top projects added yet</p>
-            {username && (
-              <Link
-                href={`/public-portfolio/${username}/projects`}
-                className="inline-block mt-2 text-sm md:text-base"
-                style={{ color: 'var(--theme-accent)' }}
-              >
-                Add projects
-              </Link>
-            )}
           </div>
         </div>
       </section>
@@ -110,12 +102,13 @@ const TopProjectsPage: React.FC<TopProjectsTimelineProps> = ({ portfolio, userna
         '--theme-text-secondary': '#94a3b8',
         '--theme-text-muted': '#64748b',
         '--theme-accent': '#3b82f6',
-        '--theme-accent-hover': '#2563eb',
-        backgroundColor: 'var(--theme-bg)'
+        '--theme-accent-hover': '#2563eb'
       } as React.CSSProperties}>
         <div className="max-w-6xl mx-auto px-4">
           <div className="text-center mb-8">
-            <h2 className="text-4xl font-bold mb-4 bg-gradient-to-r from-green-400 to-blue-600 bg-clip-text text-transparent">Top Projects</h2>
+            <h2 className={`font-geisSans text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold bg-gradient-to-r from-blue-400 to-purple-600 bg-clip-text text-transparent dark:from-blue-300 dark:to-purple-500`}>
+              Top Projects
+            </h2>
             <p className="text-base mb-4" style={{ color: 'var(--theme-text-secondary)' }}>My most significant and impactful work</p>
 
             {username && (
@@ -326,12 +319,13 @@ const TopProjectsPage: React.FC<TopProjectsTimelineProps> = ({ portfolio, userna
       '--theme-text-secondary': '#94a3b8',
       '--theme-text-muted': '#64748b',
       '--theme-accent': '#3b82f6',
-      '--theme-accent-hover': '#2563eb',
-      backgroundColor: 'var(--theme-bg)'
+      '--theme-accent-hover': '#2563eb'
     } as React.CSSProperties}>
       <div className="max-w-6xl mx-auto px-4">
         <div className="text-center mb-12">
-          <h2 className="text-4xl font-bold mb-4 bg-gradient-to-r from-green-400 to-blue-600 bg-clip-text text-transparent">Top Projects</h2>
+          <h2 className={`font-geisSans text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold bg-gradient-to-r from-blue-400 to-purple-600 bg-clip-text text-transparent dark:from-blue-300 dark:to-purple-500`}>
+            Top Projects
+          </h2>
           <p className="text-lg mb-4" style={{ color: 'var(--theme-text-secondary)' }}>My most significant and impactful work</p>
 
           {username && (

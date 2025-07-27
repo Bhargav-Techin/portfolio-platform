@@ -58,7 +58,12 @@ const TopSkillsPage: React.FC<TopSkillsPageProps> = ({ portfolio, username }) =>
         backgroundColor: 'var(--theme-bg)'
       } as React.CSSProperties}>
         <div className="max-w-6xl mx-auto px-4 text-center">
-          <h2 className="text-4xl font-bold bg-gradient-to-r from-blue-400 to-purple-600 bg-clip-text text-transparent">Top Skills</h2>
+          <h2 className={`font-geistSans text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold bg-gradient-to-r from-blue-400 to-purple-600 bg-clip-text text-transparent dark:from-blue-300 dark:to-purple-500`}>
+            Top Skills
+          </h2>
+
+
+
           <p className="mb-4" style={{ color: 'var(--theme-text-secondary)' }}>My most proficient and frequently used technologies</p>
 
           <div className="py-12" style={{ color: 'var(--theme-text-muted)' }}>
@@ -66,15 +71,6 @@ const TopSkillsPage: React.FC<TopSkillsPageProps> = ({ portfolio, username }) =>
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
             </svg>
             <p>No skills added yet</p>
-            {username && (
-              <Link
-                href={`/public-portfolio/${username}/skills`}
-                className="inline-block mt-2"
-                style={{ color: 'var(--theme-accent)' }}
-              >
-                Add skills
-              </Link>
-            )}
           </div>
         </div>
       </section>
@@ -97,12 +93,16 @@ const TopSkillsPage: React.FC<TopSkillsPageProps> = ({ portfolio, username }) =>
       '--theme-text-secondary': '#94a3b8',
       '--theme-text-muted': '#64748b',
       '--theme-accent': '#3b82f6',
-      '--theme-accent-hover': '#2563eb',
-      backgroundColor: 'var(--theme-bg)'
+      '--theme-accent-hover': '#2563eb'
     } as React.CSSProperties}>
       <div className="max-w-6xl mx-auto px-4">
         <div className="text-center mb-8">
-          <h2 className="text-4xl font-bold bg-gradient-to-r from-blue-400 to-purple-600 bg-clip-text text-transparent">Top Skills</h2>
+          <h2 className={`font-geisSans text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold bg-gradient-to-r from-blue-400 to-purple-600 bg-clip-text text-transparent dark:from-blue-300 dark:to-purple-500`}>
+            Top Skills
+          </h2>
+
+
+
           <p className="mb-4" style={{ color: 'var(--theme-text-secondary)' }}>My most proficient and frequently used technologies</p>
 
           {username && (

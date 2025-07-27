@@ -243,8 +243,7 @@ const PublicPortfolioPage = () => {
                 '--theme-text-secondary': '#94a3b8',
                 '--theme-text-muted': '#64748b',
                 '--theme-accent': '#3b82f6',
-                '--theme-accent-hover': '#2563eb',
-                backgroundColor: 'var(--theme-bg)'
+                '--theme-accent-hover': '#2563eb'
             } as React.CSSProperties}
         >
             {/* Navigation Bar */}
