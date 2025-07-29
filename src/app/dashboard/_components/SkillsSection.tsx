@@ -84,6 +84,8 @@ const popularSkills = [
   { name: 'Node.js', logo: 'https://raw.githubusercontent.com/devicons/devicon/master/icons/nodejs/nodejs-original.svg', type: 'Framework' },
   { name: 'Python', logo: 'https://raw.githubusercontent.com/devicons/devicon/master/icons/python/python-original.svg', type: 'Programming Language' },
   { name: 'Java', logo: 'https://raw.githubusercontent.com/devicons/devicon/master/icons/java/java-original.svg', type: 'Programming Language' },
+  { name: 'Ruby', logo: 'https://raw.githubusercontent.com/devicons/devicon/master/icons/ruby/ruby-original.svg', type: 'Programming Language' },
+  { name: 'C ', logo: 'https://raw.githubusercontent.com/devicons/devicon/master/icons/c/c-original.svg', type: 'Programming Language' },
   { name: 'C++', logo: 'https://raw.githubusercontent.com/devicons/devicon/master/icons/cplusplus/cplusplus-original.svg', type: 'Programming Language' },
   { name: 'C#', logo: 'https://raw.githubusercontent.com/devicons/devicon/master/icons/csharp/csharp-original.svg', type: 'Programming Language' },
   { name: 'PHP', logo: 'https://raw.githubusercontent.com/devicons/devicon/master/icons/php/php-original.svg', type: 'Programming Language' },
