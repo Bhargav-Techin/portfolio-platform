@@ -4,7 +4,6 @@ import React, { useState, useRef, useEffect } from 'react';
 import { toast } from 'sonner';
 import { motion } from 'framer-motion';
 import { Portfolio } from '@/types/portfolio';
-import FordMustang from '@/components/FordMustang';
 
 // Import from centralized animation system
 import {

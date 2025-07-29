@@ -25,7 +25,6 @@ import {
 } from 'lucide-react'
 import Link from 'next/link'
 import ContactPage from './_components/ContactPage'
-import GmailLogo from '@/components/GmailLogo'
 
 const PublicPortfolioPage = () => {
     const params = useParams()
