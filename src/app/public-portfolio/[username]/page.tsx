@@ -24,6 +24,8 @@ import {
     Loader2
 } from 'lucide-react'
 import Link from 'next/link'
+import ContactPage from './_components/ContactPage'
+import GmailLogo from '@/components/GmailLogo'
 
 const PublicPortfolioPage = () => {
     const params = useParams()
@@ -291,6 +293,13 @@ const PublicPortfolioPage = () => {
                     <section id="certifications" className="scroll-mt-20">
                         <div className="backdrop-blur-sm bg-transparent border-none">
                             <CertificationPage portfolio={portfolio} />
+                        </div>
+                    </section>
+
+                    {/* Contact Section */}
+                    <section id="contact" className="scroll-mt-20">
+                        <div className="backdrop-blur-sm bg-transparent border-none">
+                            <ContactPage portfolio={portfolio} />
                         </div>
                     </section>
                 </div>

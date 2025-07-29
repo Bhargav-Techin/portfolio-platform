@@ -16,7 +16,8 @@ const PortfolioNavBar: React.FC<PortfolioNavBarProps> = ({ portfolio, username }
         { name: 'Projects', href: '#projects' },
         { name: 'Experience', href: '#experience' },
         { name: 'Education', href: '#education' },
-        { name: 'Certifications', href: '#certifications' }
+        { name: 'Certifications', href: '#certifications' },
+        { name: 'Contact', href: '#contact' }
     ]
 
     const toggleMobileMenu = () => {

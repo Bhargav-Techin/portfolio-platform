@@ -1,6 +1,7 @@
 // src/app/public-portfolio/[username]/layout.tsx
 import StarsCanvas from '@/components/StarCanvas';
 import { Metadata } from 'next';
+import { Toaster } from 'sonner';
 
 interface RouteParams {
   username: string;
@@ -32,6 +33,7 @@ export default function PublicPortfolioLayout({
 
       {/* Foreground Content */}
       <main className="relative z-10">{children}</main>
+      <Toaster richColors position="top-right" />
     </div>
   );
 }
