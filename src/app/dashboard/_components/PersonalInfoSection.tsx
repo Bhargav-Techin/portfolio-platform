@@ -59,7 +59,19 @@ function PersonalInfoSection({ portfolio, onUpdate }: PersonalInfoSectionProps) 
     },
     {
       name: 'GitHub',
-      logo: 'https://raw.githubusercontent.com/devicons/devicon/master/icons/github/github-original.svg'
+      logo: 'https://www.svgrepo.com/show/439171/github.svg'
+    },
+    { 
+      name: 'LeetCode',
+      logo: 'https://cdn.iconscout.com/icon/free/png-512/free-leetcode-3521542-2944960.png'
+    },
+    { 
+      name: 'GeekforGeeks',
+      logo: 'https://media.geeksforgeeks.org/wp-content/uploads/20230403183704/gfg_logo.png'
+    },
+    { 
+      name: 'Take-U-Forward',
+      logo: 'https://yt3.ggpht.com/ytc/AMLnZu8mrNo5SSrwu9jvjmbPyFrqGVhRdGsJWrfErf28=s900-c-k-c0x00ffffff-no-rj'
     },
     {
       name: 'Twitter',
