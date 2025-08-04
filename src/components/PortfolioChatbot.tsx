@@ -5,8 +5,60 @@ import { useParams } from 'next/navigation'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { ScrollArea } from '@/components/ui/scroll-area'
-import { MessageCircle, Send, Bot, User, Loader2, X } from 'lucide-react'
+import { MessageCircle, Send, Bot, User, Loader2, X, Mic, MicOff, Volume2, VolumeX } from 'lucide-react'
+import { Portfolio } from '@/types/portfolio'
+
+// Type declarations for Web Speech API
+type SpeechGrammarList = any; // Add this line to declare SpeechGrammarList
+
+declare global {
+  interface Window {
+    SpeechRecognition: typeof SpeechRecognition
+    webkitSpeechRecognition: typeof SpeechRecognition
+  }
+}
+
+interface SpeechRecognitionEvent extends Event {
+  readonly resultIndex: number
+  readonly results: SpeechRecognitionResultList
+}
+
+interface SpeechRecognitionErrorEvent extends Event {
+  readonly error: 'no-speech' | 'aborted' | 'audio-capture' | 'network' | 'not-allowed' | 'service-not-allowed' | 'bad-grammar' | 'language-not-supported'
+  readonly message?: string
+}
+
+interface SpeechRecognition extends EventTarget {
+  continuous: boolean
+  grammars: SpeechGrammarList
+  interimResults: boolean
+  lang: string
+  maxAlternatives: number
+  serviceURI: string
+  start(): void
+  stop(): void
+  abort(): void
+  addEventListener(type: 'audiostart', listener: (this: SpeechRecognition, ev: Event) => any): void
+  addEventListener(type: 'audioend', listener: (this: SpeechRecognition, ev: Event) => any): void
+  addEventListener(type: 'end', listener: (this: SpeechRecognition, ev: Event) => any): void
+  addEventListener(type: 'error', listener: (this: SpeechRecognition, ev: SpeechRecognitionErrorEvent) => any): void
+  addEventListener(type: 'nomatch', listener: (this: SpeechRecognition, ev: SpeechRecognitionEvent) => any): void
+  addEventListener(type: 'result', listener: (this: SpeechRecognition, ev: SpeechRecognitionEvent) => any): void
+  addEventListener(type: 'soundstart', listener: (this: SpeechRecognition, ev: Event) => any): void
+  addEventListener(type: 'soundend', listener: (this: SpeechRecognition, ev: Event) => any): void
+  addEventListener(type: 'speechstart', listener: (this: SpeechRecognition, ev: Event) => any): void
+  addEventListener(type: 'speechend', listener: (this: SpeechRecognition, ev: Event) => any): void
+  addEventListener(type: 'start', listener: (this: SpeechRecognition, ev: Event) => any): void
+  onstart: ((this: SpeechRecognition, ev: Event) => any) | null
+  onend: ((this: SpeechRecognition, ev: Event) => any) | null
+  onerror: ((this: SpeechRecognition, ev: SpeechRecognitionErrorEvent) => any) | null
+  onresult: ((this: SpeechRecognition, ev: SpeechRecognitionEvent) => any) | null
+}
+
+declare const SpeechRecognition: {
+  prototype: SpeechRecognition
+  new(): SpeechRecognition
+}
 
 interface Message {
   id: string
@@ -21,12 +73,6 @@ interface ChatbotProps {
   username?: string
 }
 
-interface Portfolio {
-  username: string
-  fullName?: string
-  openRouterApiKey?: string
-  [key: string]: any
-}
 
 const PortfolioChatbot: React.FC<ChatbotProps> = ({ isOpen, onToggle, username }) => {
   const params = useParams()
@@ -41,6 +87,178 @@ const PortfolioChatbot: React.FC<ChatbotProps> = ({ isOpen, onToggle, username }
   const [isLoading, setIsLoading] = useState(false)
   const messagesEndRef = useRef<HTMLDivElement>(null)
   const inputRef = useRef<HTMLInputElement>(null)
+
+  // Voice recognition states
+  const [isListening, setIsListening] = useState(false)
+  const [speechSupported, setSpeechSupported] = useState(false)
+  const [isSpeaking, setIsSpeaking] = useState(false)
+  const recognitionRef = useRef<SpeechRecognition | null>(null)
+  const synthRef = useRef<SpeechSynthesis | null>(null)
+
+  // Initialize speech recognition and synthesis
+  useEffect(() => {
+    // Check for speech recognition support
+    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition
+    const speechSynthesis = window.speechSynthesis
+
+    if (SpeechRecognition) {
+      setSpeechSupported(true)
+      const recognition = new SpeechRecognition()
+      
+      // Configure speech recognition
+      recognition.continuous = false
+      recognition.interimResults = true
+      recognition.lang = 'en-US'
+      recognition.maxAlternatives = 1
+
+      // Event handlers
+      recognition.onstart = () => {
+        console.log('Speech recognition started')
+        setIsListening(true)
+      }
+
+      recognition.onresult = (event: SpeechRecognitionEvent) => {
+        console.log('Speech recognition result received')
+        let transcript = ''
+        
+        // Get the most recent result
+        for (let i = event.resultIndex; i < event.results.length; i++) {
+          const result = event.results[i]
+          if (result.isFinal) {
+            transcript += result[0].transcript
+          } else {
+            // For interim results, we can show them in real-time
+            transcript += result[0].transcript
+          }
+        }
+
+        setInputValue(transcript.trim())
+      }
+
+      recognition.onerror = (event: SpeechRecognitionErrorEvent) => {
+        console.error('Speech recognition error:', event.error, event.message)
+        setIsListening(false)
+        
+        // Handle specific errors
+        switch (event.error) {
+          case 'not-allowed':
+            console.error('Microphone access denied')
+            break
+          case 'no-speech':
+            console.log('No speech detected')
+            break
+          case 'network':
+            console.error('Network error occurred')
+            break
+          default:
+            console.error('Speech recognition error:', event.error)
+        }
+      }
+
+      recognition.onend = () => {
+        console.log('Speech recognition ended')
+        setIsListening(false)
+      }
+
+      recognition.addEventListener('speechstart', () => {
+        console.log('Speech detected')
+      })
+
+      recognition.addEventListener('speechend', () => {
+        console.log('Speech ended')
+      })
+
+      recognition.addEventListener('nomatch', () => {
+        console.log('No speech match found')
+      })
+
+      recognitionRef.current = recognition
+    } else {
+      console.log('Speech recognition not supported')
+      setSpeechSupported(false)
+    }
+
+    if (speechSynthesis) {
+      synthRef.current = speechSynthesis
+    }
+
+    return () => {
+      if (recognitionRef.current) {
+        recognitionRef.current.stop()
+        recognitionRef.current.abort()
+      }
+      if (synthRef.current) {
+        synthRef.current.cancel()
+      }
+    }
+  }, [])
+
+  // Speech recognition functions
+  const startListening = () => {
+    if (recognitionRef.current && !isListening) {
+      recognitionRef.current.start()
+    }
+  }
+
+  const stopListening = () => {
+    if (recognitionRef.current && isListening) {
+      recognitionRef.current.stop()
+    }
+  }
+
+  const toggleListening = () => {
+    if (isListening) {
+      stopListening()
+    } else {
+      startListening()
+    }
+  }
+
+  // Text-to-speech function
+  const speakText = (text: string) => {
+    if (synthRef.current && 'speechSynthesis' in window) {
+      // Stop any ongoing speech
+      synthRef.current.cancel()
+      
+      // Remove formatting markers for speech
+      const cleanText = text
+        .replace(/#([^|#]+)\|([^#]+)#/g, '$1') // Remove link markers, keep text
+        .replace(/\*([^*]+)\*/g, '$1') // Remove bold markers
+        .replace(/[#*]/g, '') // Remove any remaining markers
+
+      const utterance = new SpeechSynthesisUtterance(cleanText)
+      utterance.rate = 0.9
+      utterance.pitch = 1
+      utterance.volume = 0.8
+
+      utterance.onstart = () => {
+        setIsSpeaking(true)
+      }
+
+      utterance.onend = () => {
+        setIsSpeaking(false)
+      }
+
+      utterance.onerror = () => {
+        setIsSpeaking(false)
+      }
+
+      synthRef.current.speak(utterance)
+    }
+  }
+
+  const stopSpeaking = () => {
+    if (synthRef.current) {
+      synthRef.current.cancel()
+      setIsSpeaking(false)
+    }
+  }
+
+  const toggleSpeaking = () => {
+    if (isSpeaking) {
+      stopSpeaking()
+    }
+  }
 
   // Fetch portfolio data by username
   useEffect(() => {
@@ -76,11 +294,12 @@ const PortfolioChatbot: React.FC<ChatbotProps> = ({ isOpen, onToggle, username }
   // Initialize welcome message when portfolio loads
   useEffect(() => {
     if (portfolio) {
+      const welcomeMessage = `Hello! I'm ${portfolio?.fullName || portfolioUsername}'s portfolio assistant. I can help answer questions about their background, skills, projects, and experience. What would you like to know?`
       setMessages([
         {
           id: '1',
           role: 'assistant',
-          content: `Hello! I'm ${portfolio?.fullName || portfolioUsername}'s portfolio assistant. I can help answer questions about their background, skills, projects, and experience. What would you like to know?`,
+          content: welcomeMessage,
           timestamp: new Date()
         }
       ])
@@ -117,6 +336,9 @@ const PortfolioChatbot: React.FC<ChatbotProps> = ({ isOpen, onToggle, username }
     setInputValue('')
     setIsLoading(true)
 
+    // Stop any ongoing speech
+    stopSpeaking()
+
     try {
       const response = await fetch('/api/chat', {
         method: 'POST',
@@ -148,6 +370,12 @@ const PortfolioChatbot: React.FC<ChatbotProps> = ({ isOpen, onToggle, username }
       }
 
       setMessages(prev => [...prev, assistantMessage])
+      
+      // Speak the assistant's response
+      setTimeout(() => {
+        speakText(data.response)
+      }, 500)
+
     } catch (error) {
       console.error('Error sending message:', error)
       const errorMessage: Message = {
@@ -338,6 +566,9 @@ const PortfolioChatbot: React.FC<ChatbotProps> = ({ isOpen, onToggle, username }
   }
 
   const clearChat = () => {
+    // Stop any ongoing speech
+    stopSpeaking()
+    
     if (portfolio) {
       setMessages([
         {
@@ -402,6 +633,21 @@ const PortfolioChatbot: React.FC<ChatbotProps> = ({ isOpen, onToggle, username }
             {portfolio?.fullName && (
               <span className="text-xs opacity-80">for {portfolio.fullName}</span>
             )}
+            {/* Voice status indicators */}
+            <div className="ml-auto flex items-center gap-1">
+              {/* Speech Control Button */}
+              {isSpeaking && (
+                <Button
+                  onClick={toggleSpeaking}
+                  size="sm"
+                  variant="secondary"
+                  className="px-3 py-2 bg-orange-600 hover:bg-orange-700 text-white rounded-lg shadow-sm"
+                  title="Stop speaking"
+                >
+                  <VolumeX className="w-4 h-4" />
+                </Button>
+              )}
+            </div>
           </CardTitle>
         </CardHeader>
 
@@ -468,7 +714,7 @@ const PortfolioChatbot: React.FC<ChatbotProps> = ({ isOpen, onToggle, username }
 
           {/* Input Area */}
           <div className="px-2 sm:px-4 py-2 sm:py-3 border-t border-gray-700 bg-gray-800 flex-shrink-0 shadow-sm">
-            <div className="flex items-center gap-3">
+            <div className="flex items-center gap-2">
               <Input
                 ref={inputRef}
                 value={inputValue}
@@ -478,6 +724,29 @@ const PortfolioChatbot: React.FC<ChatbotProps> = ({ isOpen, onToggle, username }
                 disabled={isLoading}
                 className="flex-1 text-sm bg-gray-700 border-gray-600 focus:border-blue-500 focus:ring-blue-500 rounded-lg text-gray-100 placeholder-gray-400"
               />
+              
+              {/* Voice Input Button */}
+              {speechSupported && (
+                <Button
+                  onClick={toggleListening}
+                  disabled={isLoading}
+                  size="sm"
+                  variant={isListening ? "destructive" : "secondary"}
+                  className={`px-3 py-2 rounded-lg shadow-sm transition-all duration-200 ${
+                    isListening 
+                      ? 'bg-red-600 hover:bg-red-700 text-white animate-pulse' 
+                      : 'bg-gray-600 hover:bg-gray-500 text-gray-200'
+                  }`}
+                  title={isListening ? "Stop listening" : "Start voice input"}
+                >
+                  {isListening ? (
+                    <MicOff className="w-4 h-4" />
+                  ) : (
+                    <Mic className="w-4 h-4" />
+                  )}
+                </Button>
+              )}
+
               <Button
                 onClick={handleSendMessage}
                 disabled={!inputValue.trim() || isLoading}
@@ -492,14 +761,19 @@ const PortfolioChatbot: React.FC<ChatbotProps> = ({ isOpen, onToggle, username }
               </Button>
             </div>
             <div className="flex justify-between items-center mt-2">
-              <Button
-                variant="ghost"
-                size="sm"
-                onClick={clearChat}
-                className="text-xs text-gray-400 hover:text-gray-200 hover:bg-gray-700 rounded-md px-2 py-1"
-              >
-                🗑️ Clear Chat
-              </Button>
+              <div className="flex items-center gap-2">
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={clearChat}
+                  className="text-xs text-gray-400 hover:text-gray-200 hover:bg-gray-700 rounded-md px-2 py-1"
+                >
+                  🗑️ Clear Chat
+                </Button>
+                {!speechSupported && (
+                  <span className="text-xs text-amber-400">🎤 Voice not supported</span>
+                )}
+              </div>
               <div className="text-xs text-gray-500">
                 {!portfolio?.openRouterApiKey && (
                   <span className="text-amber-400 font-medium">⚠️ API key required</span>

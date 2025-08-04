@@ -17,6 +17,7 @@ import {
   spinVariants
 } from '@/lib/animations';
 import LaptopWithFloatingGmail from '@/components/LaptopWithFloatingGmail';
+import { is } from '@react-three/fiber/dist/declarations/src/core/utils';
 
 type ContactProps = {
   portfolio: Portfolio;
@@ -107,23 +108,16 @@ const Contact: React.FC<ContactProps> = ({ portfolio }) => {
     });
 
     try {
-      console.log('Sending form data:', {
-        ownerEmail: portfolio.email,
-        ownerName: portfolio.fullName,
-        userName: form.name,
-        userEmail: form.email,
-        messageLength: form.message.length
-      });
-
+      const formSnapshot = { ...form }; // capture form state at submit time
       const res = await fetch('/api/contact', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           ownerEmail: portfolio.email,
           ownerName: portfolio.fullName,
-          userName: form.name,
-          userEmail: form.email,
-          message: form.message,
+          userName: formSnapshot.name,
+          userEmail: formSnapshot.email,
+          message: formSnapshot.message,
         }),
       });
 
@@ -134,76 +128,70 @@ const Contact: React.FC<ContactProps> = ({ portfolio }) => {
       } catch (parseError) {
         console.error('Failed to parse response:', parseError);
         setLoading(false);
+        toast.dismiss(loadingToast);
         throw new Error('Invalid response from server');
       }
 
-      // Dismiss loading toast after successful parsing
+      // console.log('Response Data:', responseData);
+      // console.log('Response Status:', res);
+      // console.log(isMountedRef.current);
+
+      // Replace the section after toast.dismiss(loadingToast); with this:
+
       toast.dismiss(loadingToast);
 
-      // Check if component is still mounted before state updates
-      if (!isMountedRef.current) {
+      // if (!isMountedRef.current) {
+      //   setLoading(false);
+      //   return;
+      // }
+
+
+
+      if (res.ok && responseData.success) {
+        setForm({ name: '', email: '', message: '' });
         setLoading(false);
-        return;
-      }
+        toast.success('Message sent successfully! 🎉', {
+          description: `Thanks ${formSnapshot.name}! I'll get back to you soon.`,
+          duration: 5000,
+        });
 
-      console.log('API Response:', responseData);
-
-      if (res.ok) {
-        if (responseData.success) {
-          // Store the name before resetting the form
-          const userName = form.name;
-          // Reset form only
-          setForm({ name: '', email: '', message: '' });
-          setLoading(false);
-          toast.success('Message sent successfully! 🎉', {
-            description: `Thanks ${userName}! I'll get back to you soon.`,
-            duration: 5000,
-          });
-
-          // Show warning if acknowledgment email failed
-          if (responseData.warnings?.includes('Acknowledgment email failed')) {
-            setTimeout(() => {
-              if (isMountedRef.current) {
-                toast.warning('Note: Confirmation email may not have been sent', {
-                  description: 'Your message was received, but there was an issue sending the confirmation email.',
-                  duration: 4000,
-                });
-              }
-            }, 1000);
-          }
-        } else {
-          // API returned 200 but with success: false
-          const errorMessage = responseData.error || 'Request failed.';
-          toast.error('Failed to send message', {
-            description: errorMessage,
-            duration: 6000,
-          });
-          setLoading(false);
-          console.error('API Error (success: false):', responseData);
+        if (responseData.warnings?.includes('Acknowledgment email failed')) {
+          setTimeout(() => {
+            if (isMountedRef.current) {
+              toast.warning('Note: Confirmation email may not have been sent', {
+                description: 'Your message was received, but there was an issue sending the confirmation email.',
+                duration: 4000,
+              });
+            }
+          }, 1000);
         }
-      } else {
-        // HTTP error status (4xx, 5xx)
-        const errorMessage = responseData?.error || `Server error (${res.status})`;
+
+      } else if (res.ok && !responseData.success) {
+        // Server returned 200 but operation failed
+        const errorMessage = responseData.error || 'Request failed.';
+        setLoading(false);
         toast.error('Failed to send message', {
           description: errorMessage,
           duration: 6000,
         });
+        console.error('API Error (success: false):', responseData);
+      } else {
+        // HTTP error or server error
+        const errorMessage = responseData?.error || `Server error (${res.status})`;
         setLoading(false);
+        toast.error('Failed to send message', {
+          description: errorMessage,
+          duration: 6000,
+        });
         console.error('HTTP Error:', { status: res.status, data: responseData });
       }
     } catch (err) {
-      // Dismiss loading toast
       toast.dismiss(loadingToast);
-
-      // Check if component is still mounted
       if (!isMountedRef.current) {
         setLoading(false);
         return;
       }
-
       console.error('[CONTACT_ERROR]: ', err);
-      
-      // Better error differentiation
       if (err instanceof TypeError && err.message.includes('fetch')) {
         toast.error('Network error occurred', {
           description: 'Please check your connection and try again.',
@@ -234,7 +222,7 @@ const Contact: React.FC<ContactProps> = ({ portfolio }) => {
       </div>
 
       {/* Title with fadeUpVariants */}
-      <motion.div 
+      <motion.div
         className="mb-8 text-center w-full"
         variants={fadeUpVariants}
         initial="hidden"
@@ -268,8 +256,8 @@ const Contact: React.FC<ContactProps> = ({ portfolio }) => {
                 className="flex flex-col gap-8"
               >
                 {/* Name Field */}
-                <motion.label 
-                  htmlFor="name" 
+                <motion.label
+                  htmlFor="name"
                   className="flex flex-col"
                   variants={fadeUpVariants}
                 >
@@ -297,8 +285,8 @@ const Contact: React.FC<ContactProps> = ({ portfolio }) => {
                 </motion.label>
 
                 {/* Email Field */}
-                <motion.label 
-                  htmlFor="email" 
+                <motion.label
+                  htmlFor="email"
                   className="flex flex-col"
                   variants={fadeUpVariants}
                 >
@@ -326,8 +314,8 @@ const Contact: React.FC<ContactProps> = ({ portfolio }) => {
                 </motion.label>
 
                 {/* Message Field */}
-                <motion.label 
-                  htmlFor="message" 
+                <motion.label
+                  htmlFor="message"
                   className="flex flex-col"
                   variants={fadeUpVariants}
                 >
@@ -376,11 +364,11 @@ const Contact: React.FC<ContactProps> = ({ portfolio }) => {
                   {loading ? (
                     <span className="flex items-center gap-3">
                       {/* Using Spinner component or motion.div with spinVariants */}
-                      <motion.svg 
+                      <motion.svg
                         variants={spinVariants}
                         animate="animate"
-                        className="w-5 h-5" 
-                        fill="none" 
+                        className="w-5 h-5"
+                        fill="none"
                         viewBox="0 0 24 24"
                       >
                         <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
