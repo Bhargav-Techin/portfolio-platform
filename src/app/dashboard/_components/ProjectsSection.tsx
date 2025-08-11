@@ -114,6 +114,22 @@ function ProjectsSection({ portfolio, onUpdate }: ProjectsSectionProps) {
     }
   }, [portfolio])
 
+  // Auto-populate thumbnail with video thumbnail if videoLink is entered and thumbnail is empty
+  useEffect(() => {
+    if (!isEditing) return;
+    formData.projects.forEach((project, idx) => {
+      if (
+        project.videoLink &&
+        !project.thumbnail &&
+        getVideoThumbnail(project.videoLink)
+      ) {
+        // Only update if thumbnail is empty and videoLink is valid
+        updateProject(idx, 'thumbnail', getVideoThumbnail(project.videoLink) || '');
+      }
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [formData.projects, isEditing]);
+
   // Get count of top projects
   const topProjectsCount = formData.projects.filter(project => project.top).length
 
