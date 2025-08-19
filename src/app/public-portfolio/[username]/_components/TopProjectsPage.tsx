@@ -76,7 +76,10 @@ const TopProjectsPage: React.FC<TopProjectsTimelineProps> = ({ portfolio, userna
     )
   }
 
-  const topProjects = (portfolio.projects || []).filter((p) => p.top)
+ const topProjects = (portfolio.projects || [])
+  .filter((p) => p.top)
+  .sort((a, b) => new Date(b.startDate).getTime() - new Date(a.startDate).getTime());
+
 
   if (topProjects.length === 0) {
     return (
@@ -663,7 +666,7 @@ const TopProjectsPage: React.FC<TopProjectsTimelineProps> = ({ portfolio, userna
                           transition={{ delay: 0.4 }}
                         >
                           <h4 className="font-semibold text-sm text-gray-300 mb-2">Technologies Used</h4>
-                          <div className={`flex gap-2 mb-3 ${isEven ? 'justify-start' : 'justify-end'}`}>
+                          <div className={`flex flex-wrap gap-2 mb-3 ${isEven ? 'justify-start' : 'justify-end'}`}>
                             {project.skills.map((skill: any, skillIdx: number) => (
                               <motion.span
                                 key={skillIdx}
